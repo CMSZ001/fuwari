@@ -173,8 +173,8 @@ const config = profileConfig;
             }
             
             const statsData = await statsResponse.json();
-            const pageviews = statsData.pageviews?.value || 0;
-            const visitors = statsData.visits?.value || 0;
+            const pageviews = statsData.pageviews || 0;
+            const visitors = statsData.visitors || 0;
             
             const statsElement = document.getElementById('site-stats');
             if (statsElement) {
