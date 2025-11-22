@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  astro:
+    hash: ysrllw3gj6hylybllnynya5oma
+    path: patches/astro.patch
+
 importers:
 
   .:
@@ -13,7 +18,7 @@ importers:
         version: 0.9.5(prettier@3.6.2)(typescript@5.9.3)
       '@astrojs/netlify':
         specifier: ^6.5.11
-        version: 6.6.0(@types/node@24.9.2)(astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(babel-plugin-macros@3.1.0)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(yaml@2.8.1)
+        version: 6.6.0(@types/node@24.9.2)(astro@5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(babel-plugin-macros@3.1.0)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(yaml@2.8.1)
       '@astrojs/rss':
         specifier: ^4.0.12
         version: 4.0.13
@@ -22,10 +27,10 @@ importers:
         version: 3.6.0
       '@astrojs/svelte':
         specifier: 7.2.0
-        version: 7.2.0(@types/node@24.9.2)(astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(jiti@1.21.7)(stylus@0.64.0)(svelte@5.43.2)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
+        version: 7.2.0(@types/node@24.9.2)(astro@5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(jiti@1.21.7)(stylus@0.64.0)(svelte@5.43.2)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
       '@astrojs/tailwind':
         specifier: ^6.0.2
-        version: 6.0.2(astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(tailwindcss@3.4.18(yaml@2.8.1))
+        version: 6.0.2(astro@5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(tailwindcss@3.4.18(yaml@2.8.1))
       '@expressive-code/core':
         specifier: ^0.41.3
         version: 0.41.3
@@ -67,10 +72,10 @@ importers:
         version: 0.5.19(tailwindcss@3.4.18(yaml@2.8.1))
       astro:
         specifier: 5.13.10
-        version: 5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
+        version: 5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
       astro-expressive-code:
         specifier: ^0.41.3
-        version: 0.41.3(astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))
+        version: 0.41.3(astro@5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))
       astro-icon:
         specifier: ^1.1.5
         version: 1.1.5
@@ -6389,7 +6394,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/netlify@6.6.0(@types/node@24.9.2)(astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(babel-plugin-macros@3.1.0)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(yaml@2.8.1)':
+  '@astrojs/netlify@6.6.0(@types/node@24.9.2)(astro@5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(babel-plugin-macros@3.1.0)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(yaml@2.8.1)':
     dependencies:
       '@astrojs/internal-helpers': 0.7.4
       '@astrojs/underscore-redirects': 1.0.0
@@ -6397,7 +6402,7 @@ snapshots:
       '@netlify/functions': 4.3.0(rollup@2.79.2)
       '@netlify/vite-plugin': 2.7.8(babel-plugin-macros@3.1.0)(rollup@2.79.2)(vite@6.4.1(@types/node@24.9.2)(jiti@1.21.7)(stylus@0.64.0)(terser@5.44.0)(yaml@2.8.1))
       '@vercel/nft': 0.30.3(rollup@2.79.2)
-      astro: 5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
+      astro: 5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
       esbuild: 0.25.11
       tinyglobby: 0.2.15
       vite: 6.4.1(@types/node@24.9.2)(jiti@1.21.7)(stylus@0.64.0)(terser@5.44.0)(yaml@2.8.1)
@@ -6453,10 +6458,10 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.25.76
 
-  '@astrojs/svelte@7.2.0(@types/node@24.9.2)(astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(jiti@1.21.7)(stylus@0.64.0)(svelte@5.43.2)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)':
+  '@astrojs/svelte@7.2.0(@types/node@24.9.2)(astro@5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(jiti@1.21.7)(stylus@0.64.0)(svelte@5.43.2)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 5.1.1(svelte@5.43.2)(vite@6.4.1(@types/node@24.9.2)(jiti@1.21.7)(stylus@0.64.0)(terser@5.44.0)(yaml@2.8.1))
-      astro: 5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
+      astro: 5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
       svelte: 5.43.2
       svelte2tsx: 0.7.45(svelte@5.43.2)(typescript@5.9.3)
       typescript: 5.9.3
@@ -6475,9 +6480,9 @@ snapshots:
       - tsx
       - yaml
 
-  '@astrojs/tailwind@6.0.2(astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(tailwindcss@3.4.18(yaml@2.8.1))':
+  '@astrojs/tailwind@6.0.2(astro@5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1))(tailwindcss@3.4.18(yaml@2.8.1))':
     dependencies:
-      astro: 5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
+      astro: 5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
       autoprefixer: 10.4.21(postcss@8.5.6)
       postcss: 8.5.6
       postcss-load-config: 4.0.2(postcss@8.5.6)
@@ -8962,9 +8967,9 @@ snapshots:
 
   ast-module-types@6.0.1: {}
 
-  astro-expressive-code@0.41.3(astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)):
+  astro-expressive-code@0.41.3(astro@5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)):
     dependencies:
-      astro: 5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
+      astro: 5.13.10(patch_hash=ysrllw3gj6hylybllnynya5oma)(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1)
       rehype-expressive-code: 0.41.3
 
   astro-icon@1.1.5:
@@ -8976,7 +8981,7 @@ snapshots:
       - debug
       - supports-color
 
-  astro@5.13.10(@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1):
+  astro@5.13.10((patch_hash=ysrllw3gj6hylybllnynya5oma)@netlify/blobs@10.3.1)(@types/node@24.9.2)(jiti@1.21.7)(rollup@2.79.2)(stylus@0.64.0)(terser@5.44.0)(typescript@5.9.3)(yaml@2.8.1):
     dependencies:
       '@astrojs/compiler': 2.13.0
       '@astrojs/internal-helpers': 0.7.3
