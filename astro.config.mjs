@@ -179,6 +179,7 @@ export default defineConfig({
       },
     },
 
-  adapter: netlify(),
-  imageCDN: false,
+  adapter: netlify({
+    imageCDN: false,
+  }),
 });
