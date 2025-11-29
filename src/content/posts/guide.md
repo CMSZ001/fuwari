@@ -7,6 +7,7 @@ tags: ["Fuwari","Astro"]
 category: '记录'
 draft: false 
 lang: ''
+
 ---
 
 ::github{repo="saicaca/fuwari"}
@@ -95,11 +96,10 @@ deno run -A npm:create-fuwari@latest
 > 
 > - bio：即个性签名，会显示在头像和名字下面
 > 
-> - `NavBarConfig` 为导航栏设置的超链接。`ProfileConfig` 为你的用户的超链接，分别如图![](https://2x.nz/_astro/2024-10-15-17-49-30-image.Bgbcm3ir_Z11HHCr.webp)
+> - `NavBarConfig` 为导航栏设置的超链接。`ProfileConfig` 为你的用户的超链接
 > 
 > - icon：你需要前往[icones.js.org](https://icones.js.org/)去搜索你想要的图标，比如QQ，则填写 `fa6-brands:qq` ，如图。Fuwari默认支持这几种类型：`fa6-brands`, `fa6-regular`, `fa6-solid`, `material-symbols`。可以在 `astro.config.mjs` 中搜索关键字进行配置
-> 
-> - ![](https://2x.nz/_astro/1ef05530-10fd-4301-af4e-21ddadf18605.Cgm9cqNT_ZX51Gn.webp)
+
 
 ## 部署到PaaS平台
 
@@ -113,13 +113,13 @@ deno run -A npm:create-fuwari@latest
 
 2. 打开[Vercel](https://vercel.com/dashboard)并创建项目
 
-![](../assets/images/b86379aa-d295-49b1-87e9-c9930c24ae27.webp)
+![](../assets/images/guide_1.webp)
 
-![](../assets/images/d4ab4262-d45c-4e6a-9646-6c2af0515082.webp)
+![](../assets/images/guide_2.webp)
 
 3. 构建静态页面
-   
-![](../assets/images/ce4482bc-c151-4ace-8187-f72cffc00660.gif)
+
+![](../assets/images/guide_3.gif)
 
 ---
 
