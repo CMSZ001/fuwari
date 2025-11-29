@@ -8,7 +8,7 @@ tags:
   - Umami
 category: 教程
 draft: true
-lang:
+lang: ''
 ---
 # 准备
 1. 一个Serverless平台（[Vercel](https://vercel.com/)、[Netlify](https://www.netlify.com/)）
