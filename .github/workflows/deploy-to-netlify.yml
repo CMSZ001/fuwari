@@ -20,7 +20,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
     steps:
-      - name: Checkout functions branch
+      - name: Checkout main branch
         uses: actions/checkout@v6
 
       - name: Setup Node.js
@@ -32,10 +32,10 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install deps
+      - name: Install dependencies with pnpm
         run: pnpm install
 
-      - name: Build
+      - name: Build the project
         run: pnpm build
 
       - name: Install Netlify CLI
