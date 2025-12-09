@@ -42,7 +42,10 @@ jobs:
       - name: Install minifiers
         run: pnpm add -D html-minifier-terser terser lightningcss-cli
 
-      - name: Minify HTML / JS / CSS
+      - name: Install minifiers
+        run: pnpm add -D html-minifier-terser terser lightningcss-cli
+
+      - name: Minify HTML
         run: |
           npx html-minifier-terser \
             --input-dir dist \
@@ -50,17 +53,15 @@ jobs:
             --collapse-whitespace \
             --remove-comments \
             --remove-optional-tags \
-            --minify-css true \
-            --minify-js true \
             --file-ext html
 
+      - name: Minify JS
+        run: |
           find dist -name "*.js" -type f -exec npx terser {} -o {} --compress --mangle \;
+
+      - name: Minify CSS
+        run: |
           find dist -name "*.css" -type f -exec npx lightningcss {} -o {} --minify \;
-
-
-      # ------------------------------
-      # 🔥 部署
-      # ------------------------------
 
       - name: Install Netlify CLI
         run: npm install --global netlify-cli@latest
