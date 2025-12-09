@@ -25,7 +25,7 @@ jobs:
       - name: Setup pnpm (use version from package.json)
         uses: pnpm/action-setup@v4
         with:
-          run_install: false   # 不自动执行 pnpm install
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,6 +38,29 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Install minifiers
+        run: pnpm add -D html-minifier-terser terser lightningcss-cli
+
+      - name: Minify HTML / JS / CSS
+        run: |
+          npx html-minifier-terser \
+            --input-dir dist \
+            --output-dir dist \
+            --collapse-whitespace \
+            --remove-comments \
+            --remove-optional-tags \
+            --minify-css true \
+            --minify-js true \
+            --file-ext html
+
+          find dist -name "*.js" -type f -exec npx terser {} -o {} --compress --mangle \;
+          find dist -name "*.css" -type f -exec npx lightningcss {} -o {} --minify \;
+
+
+      # ------------------------------
+      # 🔥 部署
+      # ------------------------------
 
       - name: Install Netlify CLI
         run: npm install --global netlify-cli@latest
