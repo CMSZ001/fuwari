@@ -1,26 +1,56 @@
 ---
-import MainGridLayout from '@layouts/MainGridLayout.astro'
-import { url } from '@utils/url-utils'
-import { Icon } from 'astro-icon/components'
-import { i18n } from '@i18n/translation'
-import I18nKey from '@i18n/i18nKey'
+import Layout from "@/layouts/Layout.astro";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
+import { siteConfig } from "@/config";
 ---
 
-<MainGridLayout title={i18n(I18nKey.notFoundTitle)}>
-  <div class="w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-    <div class="card-base z-10 px-9 py-6 relative w-full text-black/75 dark:text-white/75">
-      <div class="flex items-center gap-4">
-        <h1 class="text-[5rem] font-bold">{i18n(I18nKey.notFound)}</h1>
-        <p class="text-[2rem]">{i18n(I18nKey.notFoundTitle)}</p>
-      </div>
-      <a href={url("/")} class:list={["font-bold overflow-hidden active:scale-95"]}>
-        <div class="btn-card max-w-fit rounded-2xl h-[3.75rem] px-4 flex items-center justify-start gap-2">
-          <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap text-black/75 dark:text-white/75">
-            {i18n(I18nKey.returnToTop)}
-          </div>
-          <Icon name="material-symbols:chevron-right-rounded" class="text-[1.75rem] text-black/75 dark:text-white/75" />
-        </div>
-      </a>
-    </div>
-  </div>
-</MainGridLayout>
+<Layout title="页面未找到">
+	<MainGridLayout>
+		<div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+			<!-- 404 图标 -->
+			<div class="mb-8">
+				<div class="relative">
+					<div class="text-8xl md:text-9xl font-bold text-[var(--primary)] opacity-20">
+						404
+					</div>
+					<div class="absolute inset-0 flex items-center justify-center">
+						<Icon name="fa6-solid:face-sad-tear" class="text-6xl md:text-7xl text-[var(--primary)]" />
+					</div>
+				</div>
+			</div>
+
+			<!-- 错误信息 -->
+			<div class="card-base p-8 max-w-md mx-auto mb-8">
+				<h1 class="text-2xl md:text-3xl font-bold text-90 mb-4">
+					页面走丢了
+				</h1>
+				<p class="text-75 mb-6 leading-relaxed">
+					抱歉，您访问的页面不存在或已被移动。
+					<br>
+					请检查URL是否正确，或者返回首页继续浏览。
+				</p>
+				
+				<!-- 导航按钮 -->
+				<div class="flex flex-col sm:flex-row gap-3 justify-center">
+					<a href="/" class="btn-regular-dark px-6 py-3 rounded-lg text-white font-medium">
+						<Icon name="fa6-solid:house" class="mr-2" />
+						返回首页
+					</a>
+					<a href="/archive/" class="btn-regular px-6 py-3 rounded-lg font-medium">
+						<Icon name="fa6-solid:box-archive" class="mr-2" />
+						文章归档
+					</a>
+				</div>
+			</div>
+
+			<!-- 返回提示 -->
+			<div class="mt-8 text-50 text-sm">
+				<p class="flex items-center justify-center">
+					<Icon name="fa6-solid:clock-rotate-left" class="mr-2" />
+					您也可以使用浏览器的后退按钮返回上一页
+				</p>
+			</div>
+		</div>
+	</MainGridLayout>
+</Layout>
