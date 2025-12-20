@@ -1,4 +1,4 @@
-name: Deploy to Netlify
+name: Build and Deploy to pages branch
 
 on:
   push:
@@ -6,23 +6,19 @@ on:
       - main
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+permissions:
+  contents: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    permissions:
-      contents: read
-      deployments: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm (use version from package.json)
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           run_install: false
@@ -30,17 +26,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "pnpm"
+          node-version: 20
+          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build
-
-      - name: Install minifiers
-        run: pnpm add -D html-minifier-terser terser lightningcss-cli
 
       - name: Install minifiers
         run: pnpm add -D html-minifier-terser terser lightningcss-cli
@@ -63,8 +56,19 @@ jobs:
         run: |
           find dist -name "*.css" -type f -exec npx lightningcss {} -o {} --minify \;
 
-      - name: Install Netlify CLI
-        run: npm install --global netlify-cli@latest
+      - name: Initialize pages branch
+        run: |
+          cp -r dist /tmp/pages
+          cd /tmp/pages
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b pages
+          git add .
+          git commit -m "Build and Deploy from Github Actions"
 
-      - name: Deploy to Netlify
-        run: netlify deploy --prod --dir=dist --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} --site=${{ secrets.NETLIFY_SITE_ID }}
+      - name: Force push to pages branch
+        run: |
+          cd /tmp/pages
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push -f origin pages
