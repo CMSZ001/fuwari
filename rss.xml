@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>CMSZ Blog</title><description>写点代码，也写点生活。</description><link>https://www.acmsz.top/</link><language>zh_CN</language><item><title>Astro+Fuwari博客部署教程</title><link>https://www.acmsz.top/posts/guide/</link><guid isPermaLink="true">https://www.acmsz.top/posts/guide/</guid><pubDate>Tue, 05 Aug 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;::github{repo=&quot;saicaca/fuwari&quot;}&lt;/p&gt;
+&lt;h2&gt;准备的东西&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;聪明的脑子，不会的先搜索，搜索不到就&lt;s&gt;去和AI调情&lt;/s&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;版本控制系统（&lt;a href=&quot;https://git-scm.com/&quot;&gt;Git&lt;/a&gt;），也可以使用&lt;a href=&quot;https://github.com/apps/desktop&quot;&gt;Github Desktop&lt;/a&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Fuwari的初始化和预览需要&lt;a href=&quot;https://nodejs.org/zh-cn&quot;&gt;Node.js — Run JavaScript Everywhere&lt;/a&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Markdown编辑器，例如&lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;Visual Studio Code&lt;/a&gt;、&lt;a href=&quot;https://github.com/marktext/marktext&quot;&gt;marktext&lt;/a&gt;等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;一个Git远程仓库，例如&lt;a href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;、&lt;a href=&quot;https://gitlab.com/&quot;&gt;GitLab&lt;/a&gt;等（可选）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;PaaS平台，例如&lt;a href=&quot;https://www.netlify.com/&quot;&gt;Netlify&lt;/a&gt;、&lt;a href=&quot;https://vercel.com/&quot;&gt;Vercel&lt;/a&gt;等（可选）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;让我们开始吧&lt;/h2&gt;
+&lt;h3&gt;🚀 使用方法 1&lt;/h3&gt;
+&lt;p&gt;使用 &lt;a href=&quot;https://github.com/L4Ph/create-fuwari&quot;&gt;create-fuwari&lt;/a&gt; 在本地初始化项目。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# npm
+npm create fuwari@latest
+
+# yarn
+yarn create fuwari
+
+# pnpm
+pnpm create fuwari@latest
+
+# bun
+bun create fuwari@latest
+
+# deno
+deno run -A npm:create-fuwari@latest
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;通过配置文件 &lt;code&gt;src/config.ts&lt;/code&gt; 自定义博客&lt;/li&gt;
+&lt;li&gt;执行 &lt;code&gt;pnpm new-post &amp;lt;filename&amp;gt;&lt;/code&gt; 创建新文章，并在 &lt;code&gt;src/content/posts/&lt;/code&gt; 目录中编辑&lt;/li&gt;
+&lt;li&gt;参考&lt;a href=&quot;https://docs.astro.build/zh-cn/guides/deploy/&quot;&gt;官方指南&lt;/a&gt;将博客部署至 Vercel, Netlify, GitHub Pages 等；部署前需编辑 &lt;code&gt;astro.config.mjs&lt;/code&gt; 中的站点设置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;🚀 使用方法 2&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;使用此模板&lt;a href=&quot;https://github.com/saicaca/fuwari/generate&quot;&gt;生成新仓库&lt;/a&gt;或 Fork 此仓库&lt;/li&gt;
+&lt;li&gt;进行本地开发，Clone 新的仓库，执行 &lt;code&gt;pnpm install&lt;/code&gt; 和 &lt;code&gt;pnpm add sharp&lt;/code&gt; 以安装依赖
+&lt;ul&gt;
+&lt;li&gt;若未安装 &lt;a href=&quot;https://pnpm.io/&quot;&gt;pnpm&lt;/a&gt;，执行 &lt;code&gt;npm install -g pnpm&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;通过配置文件 &lt;code&gt;src/config.ts&lt;/code&gt; 自定义博客&lt;/li&gt;
+&lt;li&gt;执行 &lt;code&gt;pnpm new-post &amp;lt;filename&amp;gt;&lt;/code&gt; 创建新文章，并在 &lt;code&gt;src/content/posts/&lt;/code&gt; 目录中编辑&lt;/li&gt;
+&lt;li&gt;参考&lt;a href=&quot;https://docs.astro.build/zh-cn/guides/deploy/&quot;&gt;官方指南&lt;/a&gt;将博客部署至 Vercel, Netlify, GitHub Pages 等；部署前需编辑 &lt;code&gt;astro.config.mjs&lt;/code&gt; 中的站点设置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;修改配置文件&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;astro.config.mjs&lt;/p&gt;
+&lt;p&gt;请自行阅读&lt;a href=&quot;https://docs.astro.build/zh-cn/reference/configuration-reference/&quot;&gt;Astro 配置文件&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;src\config.ts（其他的请自行翻译注释）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;title：博客主标题&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;subtitle：博客副标题，会显示为&lt;code&gt;title - subtitle&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;lang：博客的语言，支持&lt;code&gt;&apos;en&apos;, &apos;zh-CN&apos;, &apos;zh_TW&apos;, &apos;ja&apos;, &apos;ko&apos;, &apos;es&apos;, &apos;th&apos;, &apos;vi&apos;&lt;/code&gt;等&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;themeColor&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;hue：博客主题色&lt;code&gt;主题颜色的默认色调，范围从 0 到 360。例如，红色：0，青色：200，青蓝色：250，粉色：345&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;fixed：是否隐藏主题颜色选择器给访客&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;引用自 &lt;a href=&quot;https://2x.nz/posts/fuwari/#%E6%94%B9%E5%86%99fuwari%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E5%B9%B6%E4%B8%94%E6%B8%85%E7%90%86%E5%A4%9A%E4%BD%99%E6%96%87%E4%BB%B6&quot;&gt;Fuwari静态博客搭建教程 - AcoFork Blog&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;banner：src：即banner图片，支持http/https URL&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;favicon：src：即网站图标，支持http/https URL&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;links：即友情链接，这些链接在导航栏上&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;avatar：即你的头像&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;name：即你的名字&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;bio：即个性签名，会显示在头像和名字下面&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;NavBarConfig&lt;/code&gt; 为导航栏设置的超链接。&lt;code&gt;ProfileConfig&lt;/code&gt; 为你的用户的超链接&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;icon：你需要前往&lt;a href=&quot;https://icones.js.org/&quot;&gt;icones.js.org&lt;/a&gt;去搜索你想要的图标，比如QQ，则填写 &lt;code&gt;fa6-brands:qq&lt;/code&gt; ，如图。Fuwari默认支持这几种类型：&lt;code&gt;fa6-brands&lt;/code&gt;, &lt;code&gt;fa6-regular&lt;/code&gt;, &lt;code&gt;fa6-solid&lt;/code&gt;, &lt;code&gt;material-symbols&lt;/code&gt;。可以在 &lt;code&gt;astro.config.mjs&lt;/code&gt; 中搜索关键字进行配置&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;部署到PaaS平台&lt;/h2&gt;
+&lt;p&gt;部署的前提已推送到远程仓库&lt;/p&gt;
+&lt;h3&gt;Vercel&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;可参考&lt;a href=&quot;https://docs.astro.build/zh-cn/guides/deploy/vercel/&quot;&gt;部署你的 Astro 站点至 Vercel | Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;向Astro 项目中添加 &lt;a href=&quot;https://docs.astro.build/zh-cn/guides/integrations-guide/vercel/&quot;&gt;Vercel 适配器&lt;/a&gt; 以开启 &lt;a href=&quot;https://docs.astro.build/zh-cn/guides/on-demand-rendering/&quot;&gt;按需渲染&lt;/a&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;打开&lt;a href=&quot;https://vercel.com/dashboard&quot;&gt;Vercel&lt;/a&gt;并创建项目&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/images/guide_1.webp&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/images/guide_2.webp&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;构建静态页面&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/images/guide_3.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;🎉 恭喜你，你的Astro+Fuwari博客已部署完成&lt;/p&gt;
+</content:encoded></item><item><title>记录</title><link>https://www.acmsz.top/posts/record/</link><guid isPermaLink="true">https://www.acmsz.top/posts/record/</guid><pubDate>Fri, 01 Jan 1999 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;记录&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;仅记录**&lt;s&gt;奇怪的&lt;/s&gt;**&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;图片压缩 Squoosh&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://squoosh.app&quot;&gt;squoosh.app&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Termux-zsh&lt;/h2&gt;
+&lt;p&gt;::github{repo=&quot;Sohil876/Termux-zsh&quot;}&lt;/p&gt;
+</content:encoded></item></channel></rss>

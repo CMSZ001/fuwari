@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /_astro/
+Disallow: /pagefind/
+
+Sitemap: https://www.acmsz.top/sitemap-index.xml
