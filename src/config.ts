@@ -1,10 +1,12 @@
 import type {
+	CommentConfig,
 	ExpressiveCodeConfig,
+	GitHubEditConfig,
 	LicenseConfig,
 	NavBarConfig,
 	ProfileConfig,
 	SiteConfig,
-	CommentConfig,
+	UmamiConfig,
 } from "./types/config";
 import { LinkPreset } from "./types/config";
 
@@ -103,27 +105,39 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 };
 
 export const commentConfig: CommentConfig = {
+	enable: true,
+	type: "waline",
 	waline: {
-    serverURL: 'https://waline.acmsz.top',
-		dark: 'html.dark',
-		login: 'enable',
+		serverURL: "https://waline.acmsz.top",
+		lang: "zh-CN",
+		pageSize: 10,
+		wordLimit: 0,
+		count: 5,
 		pageview: true,
-  }
-}
+		reaction: [
+			'https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_heart_eyes.png',
+			'https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_thumbsup.png',
+			'https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_zhoumei.png',
+			'https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_grievance.png',
+			'https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_dizzy_face.png',
+			'https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_slap.png',
+		],
+		locale: {
+			reaction0: '非常有用',
+			reaction1: '有帮助',
+			reaction2: '一般',
+			reaction3: '无帮助',
+			reaction4: '看不懂',
+			reaction5: '有错误',
+		},
+	},
+};
 
 export const umamiConfig: UmamiConfig = {
 	enable: true,
 	baseUrl: "https://umami.acmsz.top",
 	shareId: "CFirWMQoiIUmgPLm",
 	timezone: "Asia/Shanghai",
-};
-
-export const statsConfig = {
-	viewsText: "浏览",
-	visitsText: "访客",
-	loadingText: "统计加载中...",
-	unavailableText: "统计不可用。请检查是否屏蔽了Umami域名，如AdGuard和AdBlock等插件",
-	getStatsText: (pageViews: number, visits: number) => `${statsConfig.viewsText} ${pageViews} · ${statsConfig.visitsText} ${visits}`,
 };
 
 export const gitHubEditConfig: GitHubEditConfig = {

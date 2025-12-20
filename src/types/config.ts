@@ -26,6 +26,7 @@ export type SiteConfig = {
 	};
 
 	favicon: Favicon[];
+	officialSite?: string;
 };
 
 export type Favicon = {
@@ -93,11 +94,40 @@ export type ExpressiveCodeConfig = {
 	theme: string;
 };
 
-export type CommentConfig = {
-  waline?: WalineConfig
+export type UmamiConfig = {
+	enable: boolean;
+	baseUrl: string;
+	shareId: string;
+	timezone: string;
+};
+
+export type GitHubEditConfig = {
+	enable: boolean;
+	baseUrl: string;
+};
+
+export interface WalineLocale {
+	reaction0?: string;
+	reaction1?: string;
+	reaction2?: string;
+	reaction3?: string;
+	reaction4?: string;
+	reaction5?: string;
 }
 
-type WalineConfig = {
-  serverURL: string
-  login?: string
-}
+export type WalineConfig = {
+	serverURL: string;
+	lang?: string;
+	pageSize?: number;
+	wordLimit?: number;
+	count?: number;
+	pageview?: boolean;
+	reaction?: boolean | string[];
+	locale?: WalineLocale;
+};
+
+export type CommentConfig = {
+	enable: boolean;
+	type: "waline";
+	waline: WalineConfig;
+};
