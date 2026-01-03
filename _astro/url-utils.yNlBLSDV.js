@@ -1,0 +1,1 @@
+import"./config.iqsaQ1g_.js";import"./zh_TW.mDuJYbWH.js";function u(e,r){return e.replace(/^\/|\/$/g,"").toLowerCase()===r.replace(/^\/|\/$/g,"").toLowerCase()}function e(...e){return e.join("/").replace(/\/+/g,"/")}function c(e){return a(`/posts/${e}/`)}function a(r){return e("","/",r)}export{c as g,u as p,a as u};
