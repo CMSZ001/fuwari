@@ -43,7 +43,7 @@ yarn create fuwari
 pnpm create fuwari@latest
 
 # bun
-bun create fuwari@latest
+bun create fuwari@latest江西
 
 # deno
 deno run -A npm:create-fuwari@latest
