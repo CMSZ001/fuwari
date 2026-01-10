@@ -1,5 +1,5 @@
-@import './misans.css';
 @tailwind components;
+@import './misans.css';
 
 @layer components {
     .card-base {
