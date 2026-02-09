@@ -54,6 +54,7 @@ export type NavBarLink = {
 	name: string;
 	url: string;
 	external?: boolean;
+	children?: (NavBarLink | LinkPreset)[]; // 支持子菜单，可以是NavBarLink或LinkPreset
 };
 
 export type NavBarConfig = {
@@ -105,4 +106,22 @@ export type UmamiConfig = {
 	baseUrl: string;
 	shareId: string;
 	timezone: string;
+};
+
+export type WalineConfig = {
+	serverURL: string;
+	lang?: string;
+	pageSize?: number;
+	wordLimit?: number;
+	count?: number;
+	pageview?: boolean;
+	reaction?: boolean;
+	requiredMeta?: string[];
+	whiteList?: string[];
+};
+
+export type CommentConfig = {
+	enable: boolean;
+	type: "waline";
+	waline: WalineConfig;
 };

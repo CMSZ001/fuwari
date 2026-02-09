@@ -211,7 +211,7 @@ const bannerOffset =
 }}>
 /* Swup navigation progress bar */
 .swup-progress-bar {
-	--progress-height: 3px;
+	--progress-height: 4px;
 	--progress-duration: 8s;
 	--progress-hue-start: -30deg;
 	--progress-hue-end: 15deg;
@@ -226,6 +226,10 @@ const bannerOffset =
 	pointer-events: none;
 	width: 0;
 	opacity: 0;
+}
+html:not(.dark) .swup-progress-bar {
+	--progress-height: 5px;
+	--progress-glow: 0 0 10px oklch(0.7 0.15 var(--hue) / 0.7);
 }
 .swup-progress-bar.is-loading {
 	opacity: 1;

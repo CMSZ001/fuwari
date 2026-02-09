@@ -29,6 +29,7 @@
 		"@iconify-json/fa6-regular": "^1.2.4",
 		"@iconify-json/fa6-solid": "^1.2.4",
 		"@iconify-json/material-symbols": "^1.2.50",
+		"@iconify-json/mdi": "^1.2.3",
 		"@iconify/svelte": "^4.2.0",
 		"@swup/astro": "^1.7.0",
 		"@tailwindcss/typography": "^0.5.19",
@@ -39,6 +40,7 @@
 		"katex": "^0.16.27",
 		"markdown-it": "^14.1.0",
 		"mdast-util-to-string": "^4.0.0",
+		"node-html-parser": "^7.0.2",
 		"overlayscrollbars": "^2.12.0",
 		"pagefind": "^1.4.0",
 		"photoswipe": "^5.4.4",
@@ -68,6 +70,7 @@
 		"@types/markdown-it": "^14.1.2",
 		"@types/mdast": "^4.0.4",
 		"@types/sanitize-html": "^2.16.0",
+		"@waline/client": "^3.8.0",
 		"postcss-import": "^16.1.1",
 		"postcss-nesting": "^13.0.2"
 	},

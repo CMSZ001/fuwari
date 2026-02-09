@@ -5,13 +5,14 @@ import type {
 	ProfileConfig,
 	SiteConfig,
 	UmamiConfig,
+	CommentConfig,
 } from "./types/config";
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
 	title: "CMSZ Blog",
 	subtitle: "写点代码，也写点生活。",
-	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
+	lang: "zh_CN",
 	themeColor: {
 		hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
 		fixed: false, // Hide the theme color picker for visitors
@@ -44,7 +45,17 @@ export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
 		LinkPreset.Archive,
-		LinkPreset.About,
+		{
+			name: "我的",
+			url: "#",
+			children: [
+				LinkPreset.About,
+				{
+					name: "日记",
+					url: "/diary/",
+				},
+			],
+		},
 		{
 			name: "统计",
 			url: "https://umami.acmsz.top/share/CFirWMQoiIUmgPLm/www.acmsz.top", // Internal links should not include the base path, as it is automatically added
@@ -78,7 +89,7 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "RSS",
 			icon: "fa6-solid:square-rss",
-			url: "https://www.acmsz.top/rss.xml",
+			url: "/rss.xml",
 		},
 	],
 };
@@ -100,4 +111,21 @@ export const umamiConfig: UmamiConfig = {
 	baseUrl: "https://umami.acmsz.top",
 	shareId: "CFirWMQoiIUmgPLm",
 	timezone: "Asia/Shanghai",
+};
+
+
+export const commentConfig: CommentConfig = {
+	enable: true,
+	type: "waline",
+	waline: {
+		serverURL: "https://waline.acmsz.top", // 替换为你的 Waline 服务端地址
+		lang: "zh-CN",
+		pageSize: 10,
+		wordLimit: 0,
+		count: 5,
+		pageview: true,
+		reaction: true,
+		requiredMeta: ["nick", "mail"],
+		whiteList: [],
+	},
 };

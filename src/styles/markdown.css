@@ -91,6 +91,17 @@
             @apply bg-[var(--codeblock-selection)];
         }
     }
+    pre {
+        @apply relative;
+    }
+    @media (max-width: 767px) {
+        pre {
+            padding-right: 2.5rem;
+        }
+        .copy-btn {
+            @apply top-2 right-2;
+        }
+    }
 
 
     ul, ol {

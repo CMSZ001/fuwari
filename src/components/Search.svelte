@@ -2,23 +2,25 @@
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import Icon, { addIcon } from "@iconify/svelte";
-import materialIcons from '@iconify-json/material-symbols/icons.json';
-import fa6Icons from '@iconify-json/fa6-solid/icons.json';
+import fa6Icons from "@iconify-json/fa6-solid/icons.json";
+import materialIcons from "@iconify-json/material-symbols/icons.json";
+
 // Preload icons to avoid CDN requests
-if (materialIcons.icons['search']) {
-	addIcon('material-symbols:search', {
-		body: materialIcons.icons['search'].body,
+if (materialIcons.icons["search"]) {
+	addIcon("material-symbols:search", {
+		body: materialIcons.icons["search"].body,
 		width: materialIcons.width,
-		height: materialIcons.height
+		height: materialIcons.height,
 	});
 }
-if (fa6Icons.icons['chevron-right']) {
-	addIcon('fa6-solid:chevron-right', {
-		body: fa6Icons.icons['chevron-right'].body,
+if (fa6Icons.icons["chevron-right"]) {
+	addIcon("fa6-solid:chevron-right", {
+		body: fa6Icons.icons["chevron-right"].body,
 		width: fa6Icons.width,
-		height: fa6Icons.height
+		height: fa6Icons.height,
 	});
 }
+
 import { url } from "@utils/url-utils.ts";
 import { onMount } from "svelte";
 import type { SearchResult } from "@/global";
@@ -142,13 +144,15 @@ onMount(() => {
 	}
 
 	// Wire up the search elements rendered in Navbar.astro
-	const desktopInput = document.getElementById('search-input-desktop') as HTMLInputElement;
-	const mobileButton = document.getElementById('search-switch');
+	const desktopInput = document.getElementById(
+		"search-input-desktop",
+	) as HTMLInputElement;
+	const mobileButton = document.getElementById("search-switch");
 	if (desktopInput) {
-		desktopInput.addEventListener('input', (e) => {
+		desktopInput.addEventListener("input", (e) => {
 			keywordDesktop = (e.target as HTMLInputElement).value;
 		});
-		desktopInput.addEventListener('focus', () => {
+		desktopInput.addEventListener("focus", () => {
 			search(keywordDesktop, true);
 		});
 	}
@@ -180,7 +184,7 @@ top-20 left-4 md:left-[unset] right-4 shadow-2xl rounded-2xl p-2">
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
   ">
         <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-        <input placeholder="Search" bind:value={keywordMobile}
+        <input placeholder={i18n(I18nKey.search)} bind:value={keywordMobile}
                class="pl-10 absolute inset-0 text-sm bg-transparent outline-0
                focus:w-60 text-black/50 dark:text-white/50"
         >

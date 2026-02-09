@@ -1,9 +1,18 @@
 ---
-
+import { execSync } from "node:child_process";
+import { Icon } from "astro-icon/components";
 import { profileConfig } from "../config";
 import { url } from "../utils/url-utils";
 
 const currentYear = new Date().getFullYear();
+
+let commitHash = "unknown";
+
+try {
+	commitHash = execSync("git rev-parse --short=7 HEAD").toString().trim();
+} catch (e) {
+	console.warn("Failed to get git info", e);
+}
 ---
 
 <!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">-->
@@ -12,10 +21,20 @@ const currentYear = new Date().getFullYear();
 <div class="transition border-dashed border-[oklch(85%_0.01_var(--hue))] dark:border-white/15 rounded-2xl mb-12 flex flex-col items-center justify-center px-6">
     <div class="transition text-50 text-sm text-center">
         &copy; <span id="copyright-year">{currentYear}</span> {profileConfig.name}. All Rights Reserved. /
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('rss.xml')}>RSS</a> /
+        <a class="transition link text-[var(--primary)] font-medium" href={url('rss/')} onclick={`event.preventDefault(); navigateToPage('${url('rss/')}')`}>RSS</a> /
+        <a class="transition link text-[var(--primary)] font-medium" href={url('atom/')} onclick={`event.preventDefault(); navigateToPage('${url('atom/')}')`}>Atom</a> /
         <a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('sitemap-index.xml')}>Sitemap</a><br>
         Powered by
         <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
         <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a>
+        <br>
+        本网站由 <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://www.cloudflare.com/">Cloudflare</a> 部署并提供全球 CDN 边缘网络加速
+        <br>
+        <a class="transition link text-[var(--primary)] font-medium" href="https://icp.gov.moe/?keyword=20257474" target="_blank">萌ICP备20257474号</a>
+        <br>
+        <a href={`https://github.com/CMSZ001/fuwari/commit/${commitHash}`} target="_blank" class="group inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/20 px-3 py-1 text-xs text-black/60 dark:text-white/60 hover:border-[var(--primary)] hover:text-[var(--primary)] dark:hover:border-[var(--primary)] dark:hover:text-[var(--primary)] transition">
+            <Icon name="mdi:source-branch" class="text-lg opacity-80 group-hover:opacity-100" />
+            <span class="text-lg tracking-wide">{commitHash}</span>
+        </a>
     </div>
 </div>

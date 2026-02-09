@@ -3,13 +3,23 @@ import { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants.ts";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import Icon, { addIcon } from "@iconify/svelte";
-import icons from '@iconify-json/material-symbols/icons.json';
+import icons from "@iconify-json/material-symbols/icons.json";
+
 // Preload icons to avoid CDN requests
-['wb-sunny-outline-rounded', 'dark-mode-outline-rounded', 'radio-button-partial-outline'].forEach(name => {
+[
+	"wb-sunny-outline-rounded",
+	"dark-mode-outline-rounded",
+	"radio-button-partial-outline",
+].forEach((name) => {
 	if (icons.icons[name]) {
-		addIcon(`material-symbols:${name}`, { body: icons.icons[name].body, width: icons.width, height: icons.height });
+		addIcon(`material-symbols:${name}`, {
+			body: icons.icons[name].body,
+			width: icons.width,
+			height: icons.height,
+		});
 	}
 });
+
 import {
 	applyThemeToDocument,
 	getStoredTheme,
@@ -22,18 +32,20 @@ let {} = $props();
 
 const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE, AUTO_MODE];
 let mode: LIGHT_DARK_MODE = $state(
-	typeof document !== 'undefined'
-		? (document.documentElement.getAttribute('data-theme-mode') as LIGHT_DARK_MODE || AUTO_MODE)
-		: AUTO_MODE
+	typeof document !== "undefined"
+		? (document.documentElement.getAttribute(
+				"data-theme-mode",
+			) as LIGHT_DARK_MODE) || AUTO_MODE
+		: AUTO_MODE,
 );
 
 onMount(() => {
 	mode = getStoredTheme();
-    document.documentElement.setAttribute('data-theme-mode', mode);
-    
+	document.documentElement.setAttribute("data-theme-mode", mode);
+
 	// Wire up the button that's rendered in Navbar.astro
-	const button = document.getElementById('scheme-switch');
-	const wrapper = document.getElementById('theme-switch-wrapper');
+	const button = document.getElementById("scheme-switch");
+	const wrapper = document.getElementById("theme-switch-wrapper");
 	if (button) {
 		button.onclick = toggleScheme;
 		button.onmouseenter = showPanel;
@@ -60,7 +72,7 @@ onMount(() => {
 function switchScheme(newMode: LIGHT_DARK_MODE) {
 	mode = newMode;
 	setTheme(newMode);
-    document.documentElement.setAttribute('data-theme-mode', newMode);
+	document.documentElement.setAttribute("data-theme-mode", newMode);
 }
 
 function toggleScheme() {
