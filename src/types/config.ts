@@ -90,7 +90,6 @@ export type BlogPostData = {
 	tags: string[];
 	draft?: boolean;
 	image?: string;
-	category?: string;
 	prevTitle?: string;
 	prevSlug?: string;
 	nextTitle?: string;
@@ -99,4 +98,11 @@ export type BlogPostData = {
 
 export type ExpressiveCodeConfig = {
 	theme: string;
+};
+
+export type UmamiConfig = {
+	enable: boolean;
+	baseUrl: string;
+	shareId: string;
+	timezone: string;
 };
