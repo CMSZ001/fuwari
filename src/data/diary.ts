@@ -11,12 +11,10 @@ export interface DiaryItem {
 	tags?: string[];
 }
 
-// 示例日记数据
 const diaryData: DiaryItem[] = [
 	{
 		id: 1,
-		content:
-			"删库跑路！",
+		content: "删库跑路！",
 		date: "2026-02-09T08:40:00Z",
 	},
 ];

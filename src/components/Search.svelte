@@ -6,9 +6,9 @@ import fa6Icons from "@iconify-json/fa6-solid/icons.json";
 import materialIcons from "@iconify-json/material-symbols/icons.json";
 
 // Preload icons to avoid CDN requests
-if (materialIcons.icons["search"]) {
+if (materialIcons.icons.search) {
 	addIcon("material-symbols:search", {
-		body: materialIcons.icons["search"].body,
+		body: materialIcons.icons.search.body,
 		width: materialIcons.width,
 		height: materialIcons.height,
 	});

@@ -6,7 +6,6 @@ image: ""
 tags:
   - Serverless
   - Umami
-category: 教程
 draft: true
 lang: ''
 

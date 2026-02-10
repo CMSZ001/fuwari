@@ -4,7 +4,6 @@ published: 2025-08-05
 description: ''
 image: ''
 tags: ["Fuwari","Astro"]
-category: '记录'
 draft: false 
 lang: ''
 

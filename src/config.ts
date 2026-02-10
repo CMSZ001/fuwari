@@ -1,11 +1,11 @@
 import type {
+	CommentConfig,
 	ExpressiveCodeConfig,
 	LicenseConfig,
 	NavBarConfig,
 	ProfileConfig,
 	SiteConfig,
 	UmamiConfig,
-	CommentConfig,
 } from "./types/config";
 import { LinkPreset } from "./types/config";
 
@@ -47,7 +47,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		{
 			name: "我的",
-			url: "#",
+			url: "",
 			children: [
 				LinkPreset.About,
 				{
@@ -112,7 +112,6 @@ export const umamiConfig: UmamiConfig = {
 	shareId: "CFirWMQoiIUmgPLm",
 	timezone: "Asia/Shanghai",
 };
-
 
 export const commentConfig: CommentConfig = {
 	enable: true,
