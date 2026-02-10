@@ -48,13 +48,7 @@ export const navBarConfig: NavBarConfig = {
 		{
 			name: "我的",
 			url: "",
-			children: [
-				LinkPreset.About,
-				{
-					name: "日记",
-					url: "/diary/",
-				},
-			],
+			children: [LinkPreset.Notes, LinkPreset.About],
 		},
 		{
 			name: "统计",

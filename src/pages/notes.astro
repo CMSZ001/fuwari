@@ -1,0 +1,306 @@
+---
+import rawData from "../data/notes.yml";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import ImageWrapper from "../components/misc/ImageWrapper.astro";
+import MarkdownIt from "markdown-it";
+import sanitizeHtml from "sanitize-html";
+
+// 获取随笔数据
+type Note = {
+	id?: number;
+	content: string;
+	date: string;
+	images?: string[];
+	location?: string;
+	mood?: string;
+};
+const rawList = (rawData as Note[]) ?? [];
+const withIds = rawList.map((item, idx) => ({
+	...item,
+	id: item.id ?? idx + 1,
+}));
+const notes = withIds.sort(
+	(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+);
+const chunkSize = 5;
+const groups: Note[][] = [];
+for (let i = 0; i < notes.length; i += chunkSize) {
+	groups.push(notes.slice(i, i + chunkSize));
+}
+const groupCount = groups.length;
+const notesStats = {
+	total: withIds.length,
+	hasImages: withIds.filter((i) => i.images && i.images.length > 0).length,
+	hasLocation: withIds.filter((i) => i.location).length,
+	hasMood: withIds.filter((i) => i.mood).length,
+	imagePercentage: withIds.length
+		? Math.round(
+				(withIds.filter((i) => i.images && i.images.length > 0).length /
+					withIds.length) *
+					100,
+			)
+		: 0,
+	locationPercentage: withIds.length
+		? Math.round(
+				(withIds.filter((i) => i.location).length / withIds.length) * 100,
+			)
+		: 0,
+	moodPercentage: withIds.length
+		? Math.round((withIds.filter((i) => i.mood).length / withIds.length) * 100)
+		: 0,
+};
+
+const markdownParser = new MarkdownIt();
+function renderMarkdown(md: string) {
+	const html = markdownParser.render(String(md ?? ""));
+	return sanitizeHtml(html, {
+		allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+	});
+}
+
+// 时间格式化函数
+function formatTime(dateString: string): string {
+	var TG = 8;
+	const timeGap = TG;
+
+	// const lang = siteConfig.lang;
+	const now = new Date();
+	const date = new Date(dateString);
+	const diffInMinutes = Math.floor(
+		(now.getTime() + timeGap * 60 * 60 * 1000 - date.getTime()) / (1000 * 60),
+	);
+
+	if (diffInMinutes < 60) {
+		return `${diffInMinutes}${i18n(I18nKey.notesMinutesAgo)}`;
+	}
+	if (diffInMinutes < 1440) {
+		// 24小时
+		const hours = Math.floor(diffInMinutes / 60);
+		return `${hours}${i18n(I18nKey.notesHoursAgo)}`;
+	}
+	const days = Math.floor(diffInMinutes / 1440);
+	return `${days}${i18n(I18nKey.notesDaysAgo)}`;
+}
+---
+
+<MainGridLayout title={i18n(I18nKey.notes)} description="即兴随笔">
+	<div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+		<div class="card-base z-10 px-4 py-4 md:px-6 md:py-5 relative w-full">
+		<div class="relative max-w-4xl w-full px-2 md:px-0">
+				<!-- 页面头部 -->
+		<div class="relative max-w-4xl w-full px-2 md:px-0">
+				<!-- 页面头部 -->
+				<div class="moments-header mb-6">
+					<div class="header-content">
+						<div class="header-info">
+							<h1 class="moments-title text-xl md:text-2xl lg:text-3xl font-bold text-90 mb-1">{i18n(I18nKey.notes)}</h1>
+							<p class="moments-subtitle text-sm md:text-base lg:text-lg text-75">{i18n(I18nKey.notesSubtitle)}</p>
+						</div>
+						<div class="header-stats">
+							<div class="stat-item text-center">
+								<span class="stat-number text-lg md:text-xl lg:text-2xl font-bold text-[var(--primary)]">{notesStats.total}</span>
+								<span class="stat-label text-xs md:text-sm lg:text-base text-75">{i18n(I18nKey.notesCount)}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 随笔列表 -->
+				<div class="moments-timeline">
+					<div id="timeline-list" class="timeline-list space-y-6">
+						{groups.map((group, gi) => (
+							<div class:list={["notes-group", { hidden: gi > 0 }]}>
+								{group.map((note, index) => (
+									<div class="moment-item card-base-daily p-3 md:p-4 lg:p-5 hover:shadow-lg transition-all">
+										<div class="moment-content">
+											<div class="moment-text custom-md markdown-content text-90 mb-3 md:mb-4" set:html={renderMarkdown(note.content)}></div>
+											{note.images && note.images.length > 0 && (
+												<div class="notes-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5 mb-3 md:mb-4">
+													{note.images.map((image, _index) => (
+														<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
+															<ImageWrapper src={image} alt="notes moment image" class="w-full h-full" />
+														</div>
+													))}
+												</div>
+											)}
+										</div>
+										<hr class="moment-divider border-t border-[var(--line-divider)] my-3 md:my-4" />
+										<div class="moment-footer flex justify-between items-center">
+											<div class="moment-time flex items-center gap-1.5 text-75 text-xs md:text-sm lg:text-base">
+												<i class="time-icon text-xs md:text-sm">🕐</i>
+												<time datetime={note.date} data-date={note.date} class="js-relative-time"></time>
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+						))}
+						<div id="notes-more-wrapper" class="flex justify-center mt-4">
+							<button id="notes-more-btn" class="btn-plain scale-animation rounded-lg px-4 h-10 active:scale-90 text-[var(--btn-content)]">
+								{i18n(I18nKey.more)}
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</MainGridLayout>
+
+<script is:inline define:vars={{groupCount: groupCount, mLabel: i18n(I18nKey.notesMinutesAgo), hLabel: i18n(I18nKey.notesHoursAgo), dLabel: i18n(I18nKey.notesDaysAgo)}}>
+var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime()+TG*60*60*1000-e.getTime())/(1000*60));if(i<60)return i+mLabel;if(i<1440){var r=Math.floor(i/60);return r+hLabel}var a=Math.floor(i/1440);return a+dLabel}function updateInitialTimes(){var times=document.querySelectorAll(".js-relative-time");for(var i=0;i<times.length;i++){var el=times[i];var d=el.getAttribute("data-date");if(d){el.textContent=fmt(d)}}}var current=1;var total=groupCount;function revealNextGroup(){var groups=document.querySelectorAll(".notes-group.hidden");if(groups.length>0){groups[0].classList.remove("hidden");updateInitialTimes()}current++;if(current>=total){var wrap=document.getElementById("notes-more-wrapper");if(wrap)wrap.remove()}}function setup(){updateInitialTimes();var btn=document.getElementById("notes-more-btn");if(!btn)return;btn.addEventListener("click",function(){revealNextGroup()})}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",setup)}else{setup()}
+</script>
+
+<style is:global>
+	.card-base-daily {
+		@apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)];
+		border: 2px solid var(--line-color);
+		transition: all 0.3s ease;
+	}
+	
+	.moments-header {
+		padding: 1rem;
+		border-radius: 8px;
+		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark, var(--primary)) 100%);
+		color: white;
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.header-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		position: relative;
+		z-index: 1;
+	}
+	
+	.moments-title {
+		color: white;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	}
+	
+	.moments-subtitle {
+		color: rgba(255, 255, 255, 0.9);
+	}
+	
+	.stat-number {
+		color: white;
+	}
+	
+	.stat-label {
+		color: rgba(255, 255, 255, 0.8);
+	}
+	
+	.image-item img {
+		transition: transform 0.3s ease;
+	}
+	
+	.image-item:hover img {
+		transform: scale(1.05);
+	}
+	
+	.action-btn {
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: var(--text-muted);
+	}
+	
+	.action-btn:hover {
+		color: var(--primary);
+	}
+	
+	/* 响应式设计 */
+	/* 手机端 (小于640px) */
+	@media (max-width: 640px) {
+		.moments-header {
+			padding: 0.75rem;
+		}
+		
+		.header-content {
+			flex-direction: column;
+			text-align: center;
+			gap: 0.75rem;
+		}
+		
+		.diary-images {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		
+		.moment-footer {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5rem;
+		}
+	}
+	
+	/* 平板竖屏 (641px - 900px) - 优化显示 */
+	@media (min-width: 641px) and (max-width: 900px) {
+		.moments-header {
+			padding: 1.25rem;
+		}
+		
+		.header-content {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		
+		.moment-item {
+			padding: 1.5rem;
+		}
+		
+		.diary-images {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 0.75rem;
+			max-width: 500px;
+		}
+		
+		.moment-text {
+			font-size: 1rem;
+			line-height: 1.7;
+		}
+		
+		.moment-footer {
+			margin-top: 1rem;
+		}
+	}
+	
+	/* 平板横屏和桌面端 (大于900px) */
+	@media (min-width: 901px) {
+		.moments-header {
+			padding: 1.5rem;
+		}
+		
+		.moment-item {
+			padding: 2rem;
+		}
+		
+		.diary-images {
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+			max-width: 600px;
+			gap: 1rem;
+		}
+		
+		.moment-text {
+			font-size: 1.1rem;
+			line-height: 1.8;
+		}
+	}
+	
+	/* 优化小屏幕显示 */
+	@media (max-width: 480px) {
+		.moment-item {
+			border-radius: 8px;
+		}
+		
+		.moments-header {
+			border-radius: 6px;
+		}
+	}
+</style>
+
+

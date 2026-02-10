@@ -78,13 +78,12 @@ export const en: Translation = {
 	[Key.atomCopied]: "Atom link copied to clipboard!",
 	[Key.atomCopyFailed]: "Copy failed, please copy the link manually",
 
-	// Diary Page
-	[Key.diary]: "Diary",
-	[Key.diarySubtitle]: "Share life, anytime, anywhere",
-	[Key.diaryCount]: "diary entries",
-	[Key.diaryReply]: "Reply",
-	[Key.diaryTips]: "Only show the latest 30 diary entries",
-	[Key.diaryMinutesAgo]: "minutes ago",
-	[Key.diaryHoursAgo]: "hours ago",
-	[Key.diaryDaysAgo]: "days ago",
+	// Notes Page
+	[Key.notes]: "Notes",
+	[Key.notesSubtitle]: "Share life, anytime, anywhere",
+	[Key.notesCount]: "notes entries",
+	[Key.notesReply]: "Reply",
+	[Key.notesMinutesAgo]: "minutes ago",
+	[Key.notesHoursAgo]: "hours ago",
+	[Key.notesDaysAgo]: "days ago",
 };

@@ -66,15 +66,14 @@ enum I18nKey {
 	atomCopied = "atomCopied",
 	atomCopyFailed = "atomCopyFailed",
 
-	// 短文页面
-	diary = "diary",
-	diarySubtitle = "diarySubtitle",
-	diaryCount = "diaryCount",
-	diaryReply = "diaryReply",
-	diaryTips = "diaryTips",
-	diaryMinutesAgo = "diaryMinutesAgo",
-	diaryHoursAgo = "diaryHoursAgo",
-	diaryDaysAgo = "diaryDaysAgo",
+	// 随笔页面
+	notes = "notes",
+	notesSubtitle = "notesSubtitle",
+	notesCount = "notesCount",
+	notesReply = "notesReply",
+	notesMinutesAgo = "notesMinutesAgo",
+	notesHoursAgo = "notesHoursAgo",
+	notesDaysAgo = "notesDaysAgo",
 }
 
 export default I18nKey;

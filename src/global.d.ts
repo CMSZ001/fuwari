@@ -39,3 +39,13 @@ interface SearchResult {
 	raw_url?: string;
 	sub_results?: SearchResult[];
 }
+
+declare module "*.yml" {
+	const data: unknown;
+	export default data;
+}
+
+declare module "*.yaml" {
+	const data: unknown;
+	export default data;
+}

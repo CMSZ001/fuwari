@@ -73,13 +73,12 @@ export const zh_TW: Translation = {
 	[Key.atomCopied]: "Atom 鏈接已複製到剪貼板！",
 	[Key.atomCopyFailed]: "複製失敗，請手動複製鏈接",
 
-	// 短文頁面
-	[Key.diary]: "日記",
-	[Key.diarySubtitle]: "隨時隨地，分享生活",
-	[Key.diaryCount]: "條短文",
-	[Key.diaryReply]: "回復",
-	[Key.diaryTips]: "只展示最近30條日記",
-	[Key.diaryMinutesAgo]: "分鐘前",
-	[Key.diaryHoursAgo]: "小時前",
-	[Key.diaryDaysAgo]: "天前",
+	// 隨筆頁面
+	[Key.notes]: "隨筆",
+	[Key.notesSubtitle]: "隨時隨地，分享生活",
+	[Key.notesCount]: "條隨筆",
+	[Key.notesReply]: "回覆",
+	[Key.notesMinutesAgo]: "分鐘前",
+	[Key.notesHoursAgo]: "小時前",
+	[Key.notesDaysAgo]: "天前",
 };

@@ -73,13 +73,12 @@ export const zh_CN: Translation = {
 	[Key.atomCopied]: "Atom 链接已复制到剪贴板！",
 	[Key.atomCopyFailed]: "复制失败，请手动复制链接",
 
-	// 短文页面
-	[Key.diary]: "日记",
-	[Key.diarySubtitle]: "随时随地，分享生活",
-	[Key.diaryCount]: "条短文",
-	[Key.diaryReply]: "回复",
-	[Key.diaryTips]: "只展示最近30条日记",
-	[Key.diaryMinutesAgo]: "分钟前",
-	[Key.diaryHoursAgo]: "小时前",
-	[Key.diaryDaysAgo]: "天前",
+	// 随笔页面
+	[Key.notes]: "随笔",
+	[Key.notesSubtitle]: "随时随地，分享生活",
+	[Key.notesCount]: "条随笔",
+	[Key.notesReply]: "回复",
+	[Key.notesMinutesAgo]: "分钟前",
+	[Key.notesHoursAgo]: "小时前",
+	[Key.notesDaysAgo]: "天前",
 };
