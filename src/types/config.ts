@@ -53,7 +53,7 @@ export enum LinkPreset {
 
 export type NavBarLink = {
 	name: string;
-	url: string;
+	url?: string;
 	external?: boolean;
 	children?: (NavBarLink | LinkPreset)[]; // 支持子菜单，可以是NavBarLink或LinkPreset
 };
@@ -116,9 +116,8 @@ export type WalineConfig = {
 	wordLimit?: number;
 	count?: number;
 	pageview?: boolean;
-	reaction?: boolean;
-	requiredMeta?: string[];
-	whiteList?: string[];
+	reaction?: string[];
+	locale?: Record<string, string>;
 };
 
 export type CommentConfig = {

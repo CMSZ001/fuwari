@@ -47,7 +47,6 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		{
 			name: "我的",
-			url: "",
 			children: [LinkPreset.Notes, LinkPreset.About],
 		},
 		{
@@ -111,14 +110,27 @@ export const commentConfig: CommentConfig = {
 	enable: true,
 	type: "waline",
 	waline: {
-		serverURL: "https://waline.acmsz.top", // 替换为你的 Waline 服务端地址
+		serverURL: "https://waline.acmsz.top",
 		lang: "zh-CN",
 		pageSize: 10,
 		wordLimit: 0,
 		count: 5,
 		pageview: true,
-		reaction: true,
-		requiredMeta: ["nick", "mail"],
-		whiteList: [],
+		reaction: [
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili/bb_heart_eyes.png",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili/bb_thumbsup.png",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili/bb_zhoumei.png",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili/bb_grievance.png",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili/bb_dizzy_face.png",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili/bb_slap.png",
+		],
+		locale: {
+			reaction0: "非常有用",
+			reaction1: "有帮助",
+			reaction2: "一般",
+			reaction3: "无帮助",
+			reaction4: "看不懂",
+			reaction5: "有错误",
+		},
 	},
 };

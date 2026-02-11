@@ -21,10 +21,10 @@ onMount(async () => {
 		reaction: commentConfig.waline.reaction,
 		requiredMeta: ["nick", "mail"] as const,
 		emoji: [
-			"https://cdn.jsdelivr.net/npm/@waline/emojis@1.2.0/weibo",
-			"https://cdn.jsdelivr.net/npm/@waline/emojis@1.2.0/bilibili",
-			"https://cdn.jsdelivr.net/npm/@waline/emojis@1.2.0/bmoji",
-			"https://cdn.jsdelivr.net/npm/@waline/emojis@1.2.0/qq",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/weibo",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bmoji",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/qq",
 		],
 		locale: commentConfig.waline.locale,
 	});

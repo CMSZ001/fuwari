@@ -69,21 +69,32 @@ const hasChildren = children.length > 0;
 				</div>
 			</>
 		) : (
-			<a
-				aria-label={link.name}
-				href={link.external ? link.url : url(link.url)}
-				target={link.external ? "_blank" : null}
-				rel={link.external ? "noopener noreferrer" : null}
-				class="btn-plain scale-animation rounded-lg h-11 font-bold w-11 md:w-auto md:px-5 active:scale-95 flex items-center justify-center lg:justify-start whitespace-nowrap"
-			>
-				<span class="truncate hidden md:inline">{link.name}</span>
-				{link.external && (
-					<Icon
-						name="fa6-solid:arrow-up-right-from-square"
-						class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"
-					/>
-				)}
-			</a>
+			link.url ? (
+				<a
+					aria-label={link.name}
+					href={link.external ? link.url : url(link.url)}
+					target={link.external ? "_blank" : null}
+					rel={link.external ? "noopener noreferrer" : null}
+					class="btn-plain scale-animation rounded-lg h-11 font-bold w-11 md:w-auto md:px-5 active:scale-95 flex items-center justify-center lg:justify-start whitespace-nowrap"
+				>
+					<span class="truncate hidden md:inline">{link.name}</span>
+					{link.external && (
+						<Icon
+							name="fa6-solid:arrow-up-right-from-square"
+							class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"
+						/>
+					)}
+				</a>
+			) : (
+				<button
+					type="button"
+					aria-label={link.name}
+					aria-disabled="true"
+					class="btn-plain rounded-lg h-11 font-bold w-11 md:w-auto md:px-5 flex items-center justify-center lg:justify-start whitespace-nowrap opacity-60 cursor-default"
+				>
+					<span class="truncate hidden md:inline">{link.name}</span>
+				</button>
+			)
 		)
 	}
 </div>
