@@ -1,15 +1,14 @@
 ---
+import MarkdownIt from "markdown-it";
+import sanitizeHtml from "sanitize-html";
+import ImageWrapper from "../components/misc/ImageWrapper.astro";
 import rawData from "../data/notes.yml";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
-import ImageWrapper from "../components/misc/ImageWrapper.astro";
-import MarkdownIt from "markdown-it";
-import sanitizeHtml from "sanitize-html";
 
 // 获取随笔数据
 type Note = {
-	id?: number;
 	content: string;
 	date: string;
 	images?: string[];
@@ -17,13 +16,9 @@ type Note = {
 	mood?: string;
 };
 const rawList = (rawData as Note[]) ?? [];
-const withIds = rawList.map((item, idx) => ({
-	...item,
-	id: item.id ?? idx + 1,
-}));
-const notes = withIds.sort(
-	(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-);
+const notes = rawList
+	.slice()
+	.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 const chunkSize = 5;
 const groups: Note[][] = [];
 for (let i = 0; i < notes.length; i += chunkSize) {
@@ -31,32 +26,45 @@ for (let i = 0; i < notes.length; i += chunkSize) {
 }
 const groupCount = groups.length;
 const notesStats = {
-	total: withIds.length,
-	hasImages: withIds.filter((i) => i.images && i.images.length > 0).length,
-	hasLocation: withIds.filter((i) => i.location).length,
-	hasMood: withIds.filter((i) => i.mood).length,
-	imagePercentage: withIds.length
+	total: notes.length,
+	hasImages: notes.filter((i) => i.images && i.images.length > 0).length,
+	hasLocation: notes.filter((i) => i.location).length,
+	hasMood: notes.filter((i) => i.mood).length,
+	imagePercentage: notes.length
 		? Math.round(
-				(withIds.filter((i) => i.images && i.images.length > 0).length /
-					withIds.length) *
+				(notes.filter((i) => i.images && i.images.length > 0).length /
+					notes.length) *
 					100,
 			)
 		: 0,
-	locationPercentage: withIds.length
-		? Math.round(
-				(withIds.filter((i) => i.location).length / withIds.length) * 100,
-			)
+	locationPercentage: notes.length
+		? Math.round((notes.filter((i) => i.location).length / notes.length) * 100)
 		: 0,
-	moodPercentage: withIds.length
-		? Math.round((withIds.filter((i) => i.mood).length / withIds.length) * 100)
+	moodPercentage: notes.length
+		? Math.round((notes.filter((i) => i.mood).length / notes.length) * 100)
 		: 0,
 };
 
-const markdownParser = new MarkdownIt();
+const markdownParser = new MarkdownIt({ html: true });
 function renderMarkdown(md: string) {
 	const html = markdownParser.render(String(md ?? ""));
 	return sanitizeHtml(html, {
-		allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+		allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+			"img",
+			"span",
+			"br",
+			"sup",
+			"sub",
+		]),
+		allowedAttributes: {
+			...sanitizeHtml.defaults.allowedAttributes,
+			img: ["src", "alt"],
+			a: ["href", "name", "target"],
+			span: ["class"],
+		},
+		allowedClasses: {
+			span: ["blink"],
+		},
 	});
 }
 
@@ -86,87 +94,78 @@ function formatTime(dateString: string): string {
 ---
 
 <MainGridLayout title={i18n(I18nKey.notes)} description="即兴随笔">
-	<div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-		<div class="card-base z-10 px-4 py-4 md:px-6 md:py-5 relative w-full">
-		<div class="relative max-w-4xl w-full px-2 md:px-0">
-				<!-- 页面头部 -->
-		<div class="relative max-w-4xl w-full px-2 md:px-0">
-				<!-- 页面头部 -->
-				<div class="moments-header mb-6">
-					<div class="header-content">
-						<div class="header-info">
-							<h1 class="moments-title text-xl md:text-2xl lg:text-3xl font-bold text-90 mb-1">{i18n(I18nKey.notes)}</h1>
-							<p class="moments-subtitle text-sm md:text-base lg:text-lg text-75">{i18n(I18nKey.notesSubtitle)}</p>
-						</div>
-						<div class="header-stats">
-							<div class="stat-item text-center">
-								<span class="stat-number text-lg md:text-xl lg:text-2xl font-bold text-[var(--primary)]">{notesStats.total}</span>
-								<span class="stat-label text-xs md:text-sm lg:text-base text-75">{i18n(I18nKey.notesCount)}</span>
+	<div class="flex w-full relative">
+		<div class="relative max-w-4xl w-full px-2 md:px-0 notes-scroll-container flex flex-col">
+			<div class="notes-scroll-area flex flex-col flex-1 min-h-0">
+					<!-- 页面头部 -->
+					<div class="moments-header sticky top-0 z-20">
+						<div class="header-content">
+							<div class="header-info">
+								<h1 class="moments-title text-xl md:text-2xl lg:text-3xl font-bold text-white mb-1">{i18n(I18nKey.notes)}</h1>
+								<p class="moments-subtitle text-sm md:text-base lg:text-lg text-white/90">{i18n(I18nKey.notesSubtitle)}</p>
+							</div>
+							<div class="header-stats">
+								<div class="stat-item text-center">
+									<span class="stat-number text-lg md:text-xl lg:text-2xl font-bold text-white">{notesStats.total}</span>
+									<span class="stat-label text-xs md:text-sm lg:text-base text-white/80">{i18n(I18nKey.notesCount)}</span>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<!-- 随笔列表 -->
-				<div class="moments-timeline">
-					<div id="timeline-list" class="timeline-list space-y-6">
-						{groups.map((group, gi) => (
-							<div class:list={["notes-group", { hidden: gi > 0 }]}>
-								{group.map((note, index) => (
-									<div class="moment-item card-base-daily p-3 md:p-4 lg:p-5 hover:shadow-lg transition-all">
-										<div class="moment-content">
-											<div class="moment-text custom-md markdown-content text-90 mb-3 md:mb-4" set:html={renderMarkdown(note.content)}></div>
-											{note.images && note.images.length > 0 && (
-												<div class="notes-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5 mb-3 md:mb-4">
-													{note.images.map((image, _index) => (
-														<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
-															<ImageWrapper src={image} alt="notes moment image" class="w-full h-full" />
-														</div>
-													))}
+					<!-- 随笔列表 -->
+					<div class="moments-timeline flex flex-col flex-1 min-h-0">
+						<div id="timeline-list" class="timeline-list transition flex flex-col flex-1 min-h-0 gap-4 pb-6">
+							{groups.map((group, gi) => (
+								<div class:list={["notes-group flex flex-col gap-4", { hidden: gi > 0 }]}>
+									{group.map((note, index) => (
+										<div class="moment-item card-base onload-animation p-6 md:p-7 transition-all">
+											<div class="moment-content">
+												<div class="moment-text custom-md markdown-content text-90 mb-3 md:mb-4" set:html={renderMarkdown(note.content)}></div>
+												{note.images && note.images.length > 0 && (
+													<div class="notes-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5 mb-3 md:mb-4">
+														{note.images.map((image, _index) => (
+															<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
+																<ImageWrapper src={image} alt="notes moment image" class="w-full h-full" />
+															</div>
+														))}
+													</div>
+												)}
+											</div>
+											<div class="moment-footer flex justify-between items-center mt-2">
+												<div class="moment-time flex items-center gap-1.5 text-sm text-black/30 dark:text-white/30 transition">
+													<time datetime={note.date} data-date={note.date} class="js-relative-time"></time>
 												</div>
-											)}
-										</div>
-										<hr class="moment-divider border-t border-[var(--line-divider)] my-3 md:my-4" />
-										<div class="moment-footer flex justify-between items-center">
-											<div class="moment-time flex items-center gap-1.5 text-75 text-xs md:text-sm lg:text-base">
-												<i class="time-icon text-xs md:text-sm">🕐</i>
-												<time datetime={note.date} data-date={note.date} class="js-relative-time"></time>
 											</div>
 										</div>
-									</div>
-								))}
-							</div>
-						))}
-						<div id="notes-more-wrapper" class="flex justify-center mt-4">
-							<button id="notes-more-btn" class="btn-plain scale-animation rounded-lg px-4 h-10 active:scale-90 text-[var(--btn-content)]">
-								{i18n(I18nKey.more)}
-							</button>
+									))}
+								</div>
+							))}
 						</div>
 					</div>
-				</div>
+			</div>
 			</div>
 		</div>
 	</div>
 </MainGridLayout>
 
 <script is:inline define:vars={{groupCount: groupCount, mLabel: i18n(I18nKey.notesMinutesAgo), hLabel: i18n(I18nKey.notesHoursAgo), dLabel: i18n(I18nKey.notesDaysAgo)}}>
-var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime()+TG*60*60*1000-e.getTime())/(1000*60));if(i<60)return i+mLabel;if(i<1440){var r=Math.floor(i/60);return r+hLabel}var a=Math.floor(i/1440);return a+dLabel}function updateInitialTimes(){var times=document.querySelectorAll(".js-relative-time");for(var i=0;i<times.length;i++){var el=times[i];var d=el.getAttribute("data-date");if(d){el.textContent=fmt(d)}}}var current=1;var total=groupCount;function revealNextGroup(){var groups=document.querySelectorAll(".notes-group.hidden");if(groups.length>0){groups[0].classList.remove("hidden");updateInitialTimes()}current++;if(current>=total){var wrap=document.getElementById("notes-more-wrapper");if(wrap)wrap.remove()}}function setup(){updateInitialTimes();var btn=document.getElementById("notes-more-btn");if(!btn)return;btn.addEventListener("click",function(){revealNextGroup()})}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",setup)}else{setup()}
+var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime()+TG*60*60*1000-e.getTime())/(1000*60));if(i<60)return i+mLabel;if(i<1440){var r=Math.floor(i/60);return r+hLabel}var a=Math.floor(i/1440);return a+dLabel}function updateInitialTimes(){var times=document.querySelectorAll(".js-relative-time");for(var i=0;i<times.length;i++){var el=times[i];var d=el.getAttribute("data-date");if(d){el.textContent=fmt(d)}}}function getArea(){return document.querySelector(".notes-scroll-area")}function updateHeaderState(){var area=getArea();if(!area)return;if(area.scrollTop>8){area.classList.add("is-scrolled")}else{area.classList.remove("is-scrolled")}}var isRevealing=!1,lastScrollTop=0;function revealNextItem(){var hiddenGroups=document.querySelectorAll(".notes-group.hidden");if(hiddenGroups.length===0)return!1;var next=hiddenGroups[0];var item=next.querySelector(".moment-item");if(!item){next.remove();return revealNextItem()}var visibleGroups=document.querySelectorAll(".notes-group:not(.hidden)");var target=visibleGroups[visibleGroups.length-1];target.appendChild(item);if(next.querySelectorAll(".moment-item").length===0)next.remove();updateInitialTimes();updateHeaderState();return!0}function maybeAutoLoad(){var area=getArea();if(!area)return;var st=area.scrollTop;var goingDown=st>lastScrollTop;lastScrollTop=st;if(!goingDown)return;var dist=area.scrollHeight-area.clientHeight-area.scrollTop;if(dist>240)return;if(isRevealing)return;isRevealing=!0;var did=revealNextItem();if(!did)area.removeEventListener("scroll",onScroll);isRevealing=!1}function onScroll(){updateHeaderState();maybeAutoLoad()}function setup(){updateInitialTimes();var area=getArea();if(area){area.addEventListener("scroll",onScroll,{passive:true});updateHeaderState()}}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",setup)}else{setup()}
 </script>
 
 <style is:global>
-	.card-base-daily {
-		@apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)];
-		border: 2px solid var(--line-color);
-		transition: all 0.3s ease;
-	}
-	
 	.moments-header {
-		padding: 1rem;
-		border-radius: 8px;
+		padding: 1.25rem;
+		padding-bottom: 3rem;
+		border-radius: 16px;
 		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark, var(--primary)) 100%);
 		color: white;
-		position: relative;
+		position: sticky;
+		top: 0;
+		z-index: 20;
 		overflow: hidden;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+		transition: border-radius 0.25s ease;
 	}
 	
 	.header-content {
@@ -212,12 +211,51 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 	.action-btn:hover {
 		color: var(--primary);
 	}
+
+	.notes-scroll-container {
+		height: calc(100vh - 6rem);
+		height: calc(100svh - 6rem);
+		overflow: hidden;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	
+	.notes-scroll-container::-webkit-scrollbar {
+		display: none;
+	}
+	
+	.notes-scroll-area {
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	
+	.notes-scroll-area::-webkit-scrollbar {
+		display: none;
+	}
+
+	.moments-timeline {
+		padding-top: 1.25rem;
+		transform: translateY(0);
+		transition: transform 0.25s ease;
+	}
+	
+	.notes-scroll-area.is-scrolled .moments-header {
+		border-radius: 16px 16px 0 0;
+	}
+	
+	.notes-scroll-area.is-scrolled .moments-timeline {
+		transform: translateY(-2rem);
+	}
 	
 	/* 响应式设计 */
 	/* 手机端 (小于640px) */
 	@media (max-width: 640px) {
 		.moments-header {
-			padding: 0.75rem;
+			padding: 1rem;
+			padding-bottom: 2.5rem;
 		}
 		
 		.header-content {
@@ -240,7 +278,8 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 	/* 平板竖屏 (641px - 900px) - 优化显示 */
 	@media (min-width: 641px) and (max-width: 900px) {
 		.moments-header {
-			padding: 1.25rem;
+			padding: 1.5rem;
+			padding-bottom: 3.25rem;
 		}
 		
 		.header-content {
@@ -272,7 +311,8 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 	/* 平板横屏和桌面端 (大于900px) */
 	@media (min-width: 901px) {
 		.moments-header {
-			padding: 1.5rem;
+			padding: 1.75rem;
+			padding-bottom: 3.5rem;
 		}
 		
 		.moment-item {
