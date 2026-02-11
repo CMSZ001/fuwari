@@ -1,4 +1,5 @@
 ---
+import Footer from "@components/Footer.astro";
 import MarkdownIt from "markdown-it";
 import sanitizeHtml from "sanitize-html";
 import ImageWrapper from "../components/misc/ImageWrapper.astro";
@@ -115,7 +116,7 @@ function formatTime(dateString: string): string {
 
 					<!-- 随笔列表 -->
 					<div class="moments-timeline flex flex-col flex-1 min-h-0">
-						<div id="timeline-list" class="timeline-list transition flex flex-col flex-1 min-h-0 gap-4 pb-6">
+						<div id="timeline-list" class="timeline-list transition flex flex-col flex-1 min-h-0 gap-4 pb-4">
 							{groups.map((group, gi) => (
 								<div class:list={["notes-group flex flex-col gap-4", { hidden: gi > 0 }]}>
 									{group.map((note, index) => (
@@ -141,6 +142,9 @@ function formatTime(dateString: string): string {
 									))}
 								</div>
 							))}
+							<div class="notes-footer">
+								<Footer></Footer>
+							</div>
 						</div>
 					</div>
 			</div>
@@ -150,7 +154,7 @@ function formatTime(dateString: string): string {
 </MainGridLayout>
 
 <script is:inline define:vars={{groupCount: groupCount, mLabel: i18n(I18nKey.notesMinutesAgo), hLabel: i18n(I18nKey.notesHoursAgo), dLabel: i18n(I18nKey.notesDaysAgo)}}>
-var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime()+TG*60*60*1000-e.getTime())/(1000*60));if(i<60)return i+mLabel;if(i<1440){var r=Math.floor(i/60);return r+hLabel}var a=Math.floor(i/1440);return a+dLabel}function updateInitialTimes(){var times=document.querySelectorAll(".js-relative-time");for(var i=0;i<times.length;i++){var el=times[i];var d=el.getAttribute("data-date");if(d){el.textContent=fmt(d)}}}function getArea(){return document.querySelector(".notes-scroll-area")}function updateHeaderState(){var area=getArea();if(!area)return;if(area.scrollTop>8){area.classList.add("is-scrolled")}else{area.classList.remove("is-scrolled")}}var isRevealing=!1,lastScrollTop=0;function revealNextItem(){var hiddenGroups=document.querySelectorAll(".notes-group.hidden");if(hiddenGroups.length===0)return!1;var next=hiddenGroups[0];var item=next.querySelector(".moment-item");if(!item){next.remove();return revealNextItem()}var visibleGroups=document.querySelectorAll(".notes-group:not(.hidden)");var target=visibleGroups[visibleGroups.length-1];target.appendChild(item);if(next.querySelectorAll(".moment-item").length===0)next.remove();updateInitialTimes();updateHeaderState();return!0}function maybeAutoLoad(){var area=getArea();if(!area)return;var st=area.scrollTop;var goingDown=st>lastScrollTop;lastScrollTop=st;if(!goingDown)return;var dist=area.scrollHeight-area.clientHeight-area.scrollTop;if(dist>240)return;if(isRevealing)return;isRevealing=!0;var did=revealNextItem();if(!did)area.removeEventListener("scroll",onScroll);isRevealing=!1}function onScroll(){updateHeaderState();maybeAutoLoad()}function setup(){updateInitialTimes();var area=getArea();if(area){area.addEventListener("scroll",onScroll,{passive:true});updateHeaderState()}}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",setup)}else{setup()}
+var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime()+TG*60*60*1000-e.getTime())/(1000*60));if(i<60)return i+mLabel;if(i<1440){var r=Math.floor(i/60);return r+hLabel}var a=Math.floor(i/1440);return a+dLabel}function updateInitialTimes(){var times=document.querySelectorAll(".js-relative-time");for(var i=0;i<times.length;i++){var el=times[i];var d=el.getAttribute("data-date");if(d){el.textContent=fmt(d)}}}function getArea(){return document.querySelector(".notes-scroll-area")}function updateHeaderState(){var area=getArea();if(!area)return;if(area.scrollTop>8){area.classList.add("is-scrolled")}else{area.classList.remove("is-scrolled")}}function hideLayoutFooters(){var els=document.querySelectorAll("#content-wrapper > .footer,#main-grid > .footer");for(var i=0;i<els.length;i++){els[i].style.display="none"}}var isRevealing=!1,lastScrollTop=0;function revealNextItem(){var hiddenGroups=document.querySelectorAll(".notes-group.hidden");if(hiddenGroups.length===0)return!1;var next=hiddenGroups[0];var item=next.querySelector(".moment-item");if(!item){next.remove();return revealNextItem()}var visibleGroups=document.querySelectorAll(".notes-group:not(.hidden)");var target=visibleGroups[visibleGroups.length-1];target.appendChild(item);if(next.querySelectorAll(".moment-item").length===0)next.remove();updateInitialTimes();updateHeaderState();return!0}function maybeAutoLoad(){var area=getArea();if(!area)return;var st=area.scrollTop;var goingDown=st>lastScrollTop;lastScrollTop=st;if(!goingDown)return;var dist=area.scrollHeight-area.clientHeight-area.scrollTop;if(dist>240)return;if(isRevealing)return;isRevealing=!0;var did=revealNextItem();if(!did)area.removeEventListener("scroll",onScroll);isRevealing=!1}function onScroll(){updateHeaderState();maybeAutoLoad()}function setup(){hideLayoutFooters();updateInitialTimes();var area=getArea();if(area){area.addEventListener("scroll",onScroll,{passive:true});updateHeaderState()}}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",setup)}else{setup()}
 </script>
 
 <style is:global>
@@ -238,8 +242,8 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 
 	.moments-timeline {
 		padding-top: 1.25rem;
-		transform: translateY(0);
-		transition: transform 0.25s ease;
+		margin-top: 0;
+		transition: margin-top 0.25s ease;
 	}
 	
 	.notes-scroll-area.is-scrolled .moments-header {
@@ -247,7 +251,7 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 	}
 	
 	.notes-scroll-area.is-scrolled .moments-timeline {
-		transform: translateY(-2rem);
+		margin-top: -2rem;
 	}
 	
 	/* 响应式设计 */
