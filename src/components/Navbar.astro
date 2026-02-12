@@ -47,13 +47,13 @@ const themeIcons = [
         </div>
         <div class="flex">
             <!-- Search bar for desktop - instant display with Astro icons -->
-            <div id="search-bar" class="hidden lg:flex transition-all items-center h-11 mr-2 rounded-lg
+            <div id="search-bar" class="hidden lg:flex transition-colors items-center h-11 mr-2 rounded-lg
                 bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06]
                 dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
             ">
                 <Icon name="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30" />
                 <input id="search-input-desktop" placeholder={i18n(I18nKey.search)}
-                    class="transition-all pl-10 text-sm bg-transparent outline-0
+                    class="transition-all pl-10 text-sm bg-transparent outline-none border-0 ring-0 focus:ring-0
                     h-full w-40 text-black/50 dark:text-white/50"
                 />
             </div>
@@ -79,6 +79,7 @@ const themeIcons = [
                         </div>
                     ))}
                 </button>
+                {/* @ts-ignore */}
                 <LightDarkSwitch client:idle></LightDarkSwitch>
             </div>
             <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
@@ -102,53 +103,7 @@ function loadButtonScript() {
             }
         };
 
-        if (settingBtn.dataset.hoverBound !== "1") {
-            settingBtn.dataset.hoverBound = "1";
 
-            let closeTimer = 0;
-
-            const getPanel = () => document.getElementById("display-setting");
-            const open = () => {
-                const panel = getPanel();
-                if (panel) panel.classList.remove("float-panel-closed");
-            };
-            const close = () => {
-                const panel = getPanel();
-                if (panel) panel.classList.add("float-panel-closed");
-            };
-            const cancelClose = () => {
-                window.clearTimeout(closeTimer);
-            };
-            const scheduleClose = () => {
-                window.clearTimeout(closeTimer);
-                closeTimer = window.setTimeout(close, 120);
-            };
-
-            const bindPanelHover = (panel) => {
-                if (panel.dataset.hoverBound === "1") return;
-                panel.dataset.hoverBound = "1";
-                panel.addEventListener("mouseenter", cancelClose);
-                panel.addEventListener("mouseleave", (e) => {
-                    const to = e.relatedTarget;
-                    if (to instanceof Node && settingBtn.contains(to)) return;
-                    scheduleClose();
-                });
-            };
-
-            settingBtn.addEventListener("mouseenter", () => {
-                cancelClose();
-                open();
-                const panel = getPanel();
-                if (panel) bindPanelHover(panel);
-            });
-
-            settingBtn.addEventListener("mouseleave", (e) => {
-                const panel = getPanel();
-                const to = e.relatedTarget;
-                if (panel && to instanceof Node && panel.contains(to)) return;
-                scheduleClose();
-            });
-        }
     }
 
     let menuBtn = document.getElementById("nav-menu-switch");
@@ -167,19 +122,30 @@ loadButtonScript();
 function setupSearchBar() {
     const bar = document.getElementById("search-bar");
     const input = document.getElementById("search-input-desktop");
-    if (!bar || !input) return;
+    if (!bar || !input || !(input instanceof HTMLInputElement)) return;
+
     const expand = () => input.classList.add("w-60");
     const collapse = () => input.classList.remove("w-60");
+
     bar.addEventListener("mouseenter", () => {
         expand();
         input.focus();
     });
     bar.addEventListener("mouseleave", () => {
-        input.blur();
-        collapse();
+        if (document.activeElement === input && input.value.trim() === "") {
+            input.blur();
+        } else if (document.activeElement !== input) {
+            collapse();
+        }
     });
-    input.addEventListener("focus", expand);
-    // keep expanded while typing; collapse only on mouseleave
+    input.addEventListener("focus", () => {
+        expand();
+    });
+    input.addEventListener("blur", () => {
+        if (!bar.matches(':hover')) {
+            collapse();
+        }
+    });
 }
 
 setupSearchBar();
