@@ -2,7 +2,6 @@
 import path from "node:path";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
-import Comment from "@components/widget/Comment.svelte";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -14,6 +13,7 @@ import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+import Comment from "@components/comment/index.astro"
 
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
@@ -131,23 +131,18 @@ const jsonLd = {
             </div>}
         </a>
     </div>
-
-        <div class="card-base p-6 md:p-9 mb-4 relative w-full">
-    <div class="flex items-center gap-3 mb-6 text-xl font-bold text-[var(--primary)]">
-        <div class="i-fa-solid-comments text-2xl"></div>
-        <span>评论区</span>
-    </div>
-        <hr class="border-dashed border-[var(--line-divider)] mb-8" />
-        <Comment client:only="svelte" />
+    <div class="card-base p-6 md:p-9 mb-4 relative w-full">
+        <!-- <hr class="border-dashed border-[var(--line-divider)] mb-8" /> -->
+        <Comment post={entry}></Comment>
     </div>
 
 </MainGridLayout>
 
 <style is:global>
-#post-container :nth-child(1) { animation-delay: calc(var(--content-delay) + 0ms) }
-#post-container :nth-child(2) { animation-delay: calc(var(--content-delay) + 50ms) }
-#post-container :nth-child(3) { animation-delay: calc(var(--content-delay) + 100ms) }
-#post-container :nth-child(4) { animation-delay: calc(var(--content-delay) + 175ms) }
-#post-container :nth-child(5) { animation-delay: calc(var(--content-delay) + 250ms) }
-#post-container :nth-child(6) { animation-delay: calc(var(--content-delay) + 325ms) }
+#post-waline :nth-child(1) { animation-delay: calc(var(--content-delay) + 0ms) }
+#post-waline :nth-child(2) { animation-delay: calc(var(--content-delay) + 50ms) }
+#post-waline :nth-child(3) { animation-delay: calc(var(--content-delay) + 100ms) }
+#post-waline :nth-child(4) { animation-delay: calc(var(--content-delay) + 175ms) }
+#post-waline :nth-child(5) { animation-delay: calc(var(--content-delay) + 250ms) }
+#post-waline :nth-child(6) { animation-delay: calc(var(--content-delay) + 325ms) }
 </style>

@@ -113,15 +113,25 @@ export type WalineConfig = {
 	serverURL: string;
 	lang?: string;
 	pageSize?: number;
-	wordLimit?: number;
+	wordLimit?: number | [number, number];
 	count?: number;
 	pageview?: boolean;
-	reaction?: string[];
-	locale?: Record<string, string>;
+	reaction?: string[] | boolean;
+	requiredMeta?: string[];
+	meta?: string[];
+	emoji?: (string | Record<string, unknown>)[] | boolean;
+	locale?: Record<string, unknown>;
+	dark?: string | boolean;
+	commentSorting?: "latest" | "oldest" | "hottest";
+	login?: "enable" | "disable" | "force";
+	imageUploader?: boolean;
+	highlighter?: boolean;
+	texRenderer?: boolean;
+	search?: boolean | Record<string, unknown>;
+	recaptchaV3Key?: string;
+	turnstileKey?: string;
 };
 
 export type CommentConfig = {
-	enable: boolean;
-	type: "waline";
 	waline: WalineConfig;
 };

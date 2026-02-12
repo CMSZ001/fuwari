@@ -548,6 +548,8 @@ const setup = () => {
 		if (heightExtend) {
 			heightExtend.classList.remove('hidden')
 		}
+        // Update scroll function for go-to-comments button
+        scrollFunction()
 	});
 	window.swup.hooks.on('visit:end', (_visit: {to: {url: string}}) => {
 		setTimeout(() => {
@@ -571,6 +573,7 @@ if (window?.swup?.hooks) {
 }
 
 let backToTopBtn = document.getElementById('back-to-top-btn');
+let goToCommentsBtn = document.getElementById('go-to-comments-btn');
 let toc = document.getElementById('toc-wrapper');
 let navbar = document.getElementById('navbar-wrapper')
 function scrollFunction() {
@@ -581,6 +584,14 @@ function scrollFunction() {
 			backToTopBtn.classList.remove('hide')
 		} else {
 			backToTopBtn.classList.add('hide')
+		}
+	}
+
+	if (goToCommentsBtn) {
+		if (document.getElementById('giscus-container') || document.getElementById('waline')) {
+			goToCommentsBtn.classList.remove('hide')
+		} else {
+			goToCommentsBtn.classList.add('hide')
 		}
 	}
 
@@ -610,6 +621,7 @@ function scrollFunction() {
 	}
 }
 window.onscroll = scrollFunction
+scrollFunction()
 
 window.onresize = () => {
 	// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text

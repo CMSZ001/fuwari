@@ -107,8 +107,6 @@ export const umamiConfig: UmamiConfig = {
 };
 
 export const commentConfig: CommentConfig = {
-	enable: true,
-	type: "waline",
 	waline: {
 		serverURL: "https://waline.acmsz.top",
 		lang: "zh-CN",
@@ -116,6 +114,14 @@ export const commentConfig: CommentConfig = {
 		wordLimit: 0,
 		count: 5,
 		pageview: true,
+		login: "force",
+		requiredMeta: ["nick", "mail"],
+		emoji: [
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/weibo",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bmoji",
+			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/qq",
+		],
 		reaction: [
 			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili/bb_heart_eyes.png",
 			"https://registry.npmmirror.com/@waline/emojis/1.4.0/files/bilibili/bb_thumbsup.png",
