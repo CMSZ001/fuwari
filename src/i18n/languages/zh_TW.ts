@@ -6,6 +6,7 @@ export const zh_TW: Translation = {
 	[Key.about]: "關於",
 	[Key.archive]: "彙整",
 	[Key.search]: "搜尋",
+	[Key.sponsors]: "贊助",
 
 	[Key.tags]: "標籤",
 	[Key.recentPosts]: "最新文章",

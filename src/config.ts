@@ -1,6 +1,7 @@
 import type {
 	CommentConfig,
 	ExpressiveCodeConfig,
+	GitHubEditConfig,
 	LicenseConfig,
 	NavBarConfig,
 	ProfileConfig,
@@ -45,6 +46,7 @@ export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
 		LinkPreset.Archive,
+		LinkPreset.Sponsors,
 		{
 			name: "我的",
 			children: [LinkPreset.Notes, LinkPreset.About],
@@ -139,4 +141,9 @@ export const commentConfig: CommentConfig = {
 			reaction5: "有错误",
 		},
 	},
+};
+
+export const githubEditConfig: GitHubEditConfig = {
+	enable: true,
+	baseUrl: "https://github.com/CMSZ001/fuwari/blob/main/src/content/posts",
 };
