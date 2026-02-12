@@ -1,5 +1,4 @@
 ---
-import Footer from "@components/Footer.astro";
 import MarkdownIt from "markdown-it";
 import sanitizeHtml from "sanitize-html";
 import ImageWrapper from "../components/misc/ImageWrapper.astro";
@@ -20,12 +19,13 @@ const rawList = (rawData as Note[]) ?? [];
 const notes = rawList
 	.slice()
 	.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
 const chunkSize = 5;
 const groups: Note[][] = [];
 for (let i = 0; i < notes.length; i += chunkSize) {
 	groups.push(notes.slice(i, i + chunkSize));
 }
-const groupCount = groups.length;
+
 const notesStats = {
 	total: notes.length,
 	hasImages: notes.filter((i) => i.images && i.images.length > 0).length,
@@ -95,81 +95,151 @@ function formatTime(dateString: string): string {
 ---
 
 <MainGridLayout title={i18n(I18nKey.notes)} description="即兴随笔">
-	<div class="flex w-full relative">
-		<div class="relative max-w-4xl w-full px-2 md:px-0 notes-scroll-container flex flex-col">
-			<div class="notes-scroll-area flex flex-col flex-1 min-h-0">
-					<!-- 页面头部 -->
-					<div class="moments-header sticky top-0 z-20">
-						<div class="header-content">
-							<div class="header-info">
-								<h1 class="moments-title text-xl md:text-2xl lg:text-3xl font-bold text-white mb-1">{i18n(I18nKey.notes)}</h1>
-								<p class="moments-subtitle text-sm md:text-base lg:text-lg text-white/90">{i18n(I18nKey.notesSubtitle)}</p>
-							</div>
-							<div class="header-stats">
-								<div class="stat-item text-center">
-									<span class="stat-number text-lg md:text-xl lg:text-2xl font-bold text-white">{notesStats.total}</span>
-									<span class="stat-label text-xs md:text-sm lg:text-base text-white/80">{i18n(I18nKey.notesCount)}</span>
-								</div>
-							</div>
+	<div id="notes-timeline" class="relative w-full h-auto max-h-[calc(100dvh-5.5rem)] overflow-y-auto overflow-x-hidden hide-scrollbar flex flex-col">
+		<!-- 页面头部 -->
+		<div class="moments-header-container sticky top-0 z-40 shrink-0">
+			<div class="moments-header mb-4">
+				<div class="header-content">
+					<div class="header-info">
+						<h1 class="moments-title text-xl md:text-2xl font-bold text-white mb-1">{i18n(I18nKey.notes)}</h1>
+						<p class="moments-subtitle text-sm md:text-base text-white/90">{i18n(I18nKey.notesSubtitle)}</p>
+					</div>
+					<div class="header-stats">
+						<div class="stat-item text-center">
+							<span class="stat-number text-xl md:text-2xl font-bold text-white">{notesStats.total}</span>
+							<span class="stat-label text-xs md:text-sm text-white/80">{i18n(I18nKey.notesCount)}</span>
 						</div>
 					</div>
-
-					<!-- 随笔列表 -->
-					<div class="moments-timeline flex flex-col flex-1 min-h-0">
-						<div id="timeline-list" class="timeline-list transition flex flex-col flex-1 min-h-0 gap-4 pb-4">
-							{groups.map((group, gi) => (
-								<div class:list={["notes-group flex flex-col gap-4", { hidden: gi > 0 }]}>
-									{group.map((note, index) => (
-										<div class="moment-item card-base onload-animation p-6 md:p-7 transition-all">
-											<div class="moment-content">
-												<div class="moment-text custom-md markdown-content text-90 mb-3 md:mb-4" set:html={renderMarkdown(note.content)}></div>
-												{note.images && note.images.length > 0 && (
-													<div class="notes-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5 mb-3 md:mb-4">
-														{note.images.map((image, _index) => (
-															<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
-																<ImageWrapper src={image} alt="notes moment image" class="w-full h-full" />
-															</div>
-														))}
-													</div>
-												)}
-											</div>
-											<div class="moment-footer flex justify-between items-center mt-2">
-												<div class="moment-time flex items-center gap-1.5 text-sm text-black/30 dark:text-white/30 transition">
-													<time datetime={note.date} data-date={note.date} class="js-relative-time"></time>
-												</div>
-											</div>
-										</div>
-									))}
-								</div>
-							))}
-							<div class="notes-footer">
-								<Footer></Footer>
-							</div>
-						</div>
-					</div>
-			</div>
+				</div>
 			</div>
 		</div>
+
+		<!-- 随笔列表 -->
+		<div class="moments-timeline flex flex-col gap-4 pb-4 relative z-10">
+			{groups.map((group, gi) => (
+				<div class:list={["notes-group flex flex-col gap-4", { hidden: gi > 0 }]}>
+					{group.map((note) => (
+						<div class="moment-item card-base onload-animation p-6 md:p-7 transition-all">
+							<div class="moment-content">
+								<div
+									class="moment-text custom-md markdown-content text-90 mb-3 md:mb-4"
+									set:html={renderMarkdown(note.content)}
+								></div>
+								{note.images && note.images.length > 0 && (
+									<div class="notes-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5 mb-3 md:mb-4">
+										{note.images.map((image) => (
+											<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
+												<ImageWrapper src={image} alt="notes moment image" class="w-full h-full" />
+											</div>
+										))}
+									</div>
+								)}
+							</div>
+							<div class="moment-footer flex justify-between items-center mt-2">
+								<div class="moment-time flex items-center gap-1.5 text-sm text-black/30 dark:text-white/30 transition">
+									<time datetime={note.date}>{formatTime(note.date)}</time>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			))}
+		</div>
+		<div id="load-more-trigger" class="h-8 w-full shrink-0"></div>
 	</div>
 </MainGridLayout>
 
-<script is:inline define:vars={{groupCount: groupCount, mLabel: i18n(I18nKey.notesMinutesAgo), hLabel: i18n(I18nKey.notesHoursAgo), dLabel: i18n(I18nKey.notesDaysAgo)}}>
-var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime()+TG*60*60*1000-e.getTime())/(1000*60));if(i<60)return i+mLabel;if(i<1440){var r=Math.floor(i/60);return r+hLabel}var a=Math.floor(i/1440);return a+dLabel}function updateInitialTimes(){var times=document.querySelectorAll(".js-relative-time");for(var i=0;i<times.length;i++){var el=times[i];var d=el.getAttribute("data-date");if(d){el.textContent=fmt(d)}}}function getArea(){return document.querySelector(".notes-scroll-area")}function updateHeaderState(){var area=getArea();if(!area)return;if(area.scrollTop>8){area.classList.add("is-scrolled")}else{area.classList.remove("is-scrolled")}}function hideLayoutFooters(){var els=document.querySelectorAll("#content-wrapper > .footer,#main-grid > .footer");for(var i=0;i<els.length;i++){els[i].style.display="none"}}var isRevealing=!1,lastScrollTop=0;function revealNextItem(){var hiddenGroups=document.querySelectorAll(".notes-group.hidden");if(hiddenGroups.length===0)return!1;var next=hiddenGroups[0];var item=next.querySelector(".moment-item");if(!item){next.remove();return revealNextItem()}var visibleGroups=document.querySelectorAll(".notes-group:not(.hidden)");var target=visibleGroups[visibleGroups.length-1];target.appendChild(item);if(next.querySelectorAll(".moment-item").length===0)next.remove();updateInitialTimes();updateHeaderState();return!0}function maybeAutoLoad(){var area=getArea();if(!area)return;var st=area.scrollTop;var goingDown=st>lastScrollTop;lastScrollTop=st;if(!goingDown)return;var dist=area.scrollHeight-area.clientHeight-area.scrollTop;if(dist>240)return;if(isRevealing)return;isRevealing=!0;var did=revealNextItem();if(!did)area.removeEventListener("scroll",onScroll);isRevealing=!1}function onScroll(){updateHeaderState();maybeAutoLoad()}function setup(){hideLayoutFooters();updateInitialTimes();var area=getArea();if(area){area.addEventListener("scroll",onScroll,{passive:true});updateHeaderState()}}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",setup)}else{setup()}
+<script is:inline>
+function updateInitialTimes(){var times=document.querySelectorAll(".js-relative-time");for(var i=0;i<times.length;i++){var el=times[i];var d=el.getAttribute("data-date");if(d){el.textContent=fmt(d)}}}
+var isRevealing=!1;
+var observer;
+function revealNextItem(){
+    var hiddenGroups=document.querySelectorAll(".notes-group.hidden");
+    if(hiddenGroups.length===0)return!1;
+    var next=hiddenGroups[0];
+    next.classList.remove("hidden");
+    next.classList.add("slide-in-bottom");
+    return!0;
+}
+function setupObserver() {
+    var trigger = document.getElementById("load-more-trigger");
+    var container = document.getElementById("notes-timeline");
+    if (!trigger || !container) return;
+
+    if (observer) observer.disconnect();
+
+    observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !isRevealing) {
+                isRevealing = true;
+                setTimeout(() => {
+                    var did = revealNextItem();
+                    isRevealing = false;
+                    if (!did) {
+                        if(observer) observer.disconnect();
+                        trigger.style.display = 'none';
+                    }
+                }, 100);
+            }
+        });
+    }, {
+        root: container,
+        rootMargin: "300px",
+        threshold: 0
+    });
+
+    observer.observe(trigger);
+}
+
+function setupHeaderScroll() {
+    var container = document.getElementById("notes-timeline");
+    var header = document.querySelector(".moments-header");
+    if (!container || !header) return;
+
+    var handleScroll = () => {
+        if (container.scrollTop > 20) {
+            header.classList.add("is-collapsed");
+        } else {
+            header.classList.remove("is-collapsed");
+        }
+    };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    // Initial check
+    handleScroll();
+}
+
+if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded", () => {
+        setupObserver();
+        setupHeaderScroll();
+    });
+}else{
+    setupObserver();
+    setupHeaderScroll();
+}
+document.addEventListener("astro:after-swap", () => {
+    setupObserver();
+    setupHeaderScroll();
+});
 </script>
 
 <style is:global>
 	.moments-header {
-		padding: 1.25rem;
-		padding-bottom: 3rem;
+		padding: 1rem;
+		padding-bottom: 1rem;
 		border-radius: 16px;
 		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark, var(--primary)) 100%);
 		color: white;
-		position: sticky;
-		top: 0;
-		z-index: 20;
 		overflow: hidden;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 		transition: border-radius 0.25s ease;
+	}
+	
+	.moments-header.is-collapsed {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* 可选：调整阴影使其看起来更像顶部栏 */
 	}
 	
 	.header-content {
@@ -216,56 +286,23 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 		color: var(--primary);
 	}
 
-	.notes-scroll-container {
-		height: calc(100vh - 6rem);
-		height: calc(100svh - 6rem);
-		overflow: hidden;
-		scrollbar-width: none;
-		-ms-overflow-style: none;
-	}
-	
-	.notes-scroll-container::-webkit-scrollbar {
-		display: none;
-	}
-	
-	.notes-scroll-area {
-		overflow-y: auto;
-		overscroll-behavior: contain;
-		-webkit-overflow-scrolling: touch;
-		scrollbar-width: none;
-		-ms-overflow-style: none;
-	}
-	
-	.notes-scroll-area::-webkit-scrollbar {
-		display: none;
-	}
-
 	.moments-timeline {
 		padding-top: 1.25rem;
-		margin-top: 0;
-		transition: margin-top 0.25s ease;
+		-webkit-overflow-scrolling: touch;
 	}
 	
-	.notes-scroll-area.is-scrolled .moments-header {
-		border-radius: 16px 16px 0 0;
-	}
-	
-	.notes-scroll-area.is-scrolled .moments-timeline {
-		margin-top: -2rem;
-	}
-	
-	/* 响应式设计 */
 	/* 手机端 (小于640px) */
 	@media (max-width: 640px) {
 		.moments-header {
 			padding: 1rem;
-			padding-bottom: 2.5rem;
+			padding-bottom: 1rem;
 		}
 		
 		.header-content {
-			flex-direction: column;
-			text-align: center;
-			gap: 0.75rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
 		}
 		
 		.diary-images {
@@ -277,13 +314,18 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 			align-items: flex-start;
 			gap: 0.5rem;
 		}
+
+		.moment-text {
+			font-size: 1rem;
+			line-height: 1.6;
+		}
 	}
 	
 	/* 平板竖屏 (641px - 900px) - 优化显示 */
 	@media (min-width: 641px) and (max-width: 900px) {
 		.moments-header {
-			padding: 1.5rem;
-			padding-bottom: 3.25rem;
+			padding: 1rem;
+			padding-bottom: 1rem;
 		}
 		
 		.header-content {
@@ -315,8 +357,8 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 	/* 平板横屏和桌面端 (大于900px) */
 	@media (min-width: 901px) {
 		.moments-header {
-			padding: 1.75rem;
-			padding-bottom: 3.5rem;
+			padding: 1.25rem;
+			padding-bottom: 1.25rem;
 		}
 		
 		.moment-item {
@@ -345,6 +387,21 @@ var TG=8;function fmt(t){var n=new Date(),e=new Date(t),i=Math.floor((n.getTime(
 			border-radius: 6px;
 		}
 	}
+	
+	.slide-in-bottom {
+		animation: slide-in-bottom 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+		will-change: transform, opacity;
+	}
+	
+	@keyframes slide-in-bottom {
+		0% {
+			transform: translateY(50px);
+			opacity: 0;
+		}
+		100% {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
 </style>
-
 
