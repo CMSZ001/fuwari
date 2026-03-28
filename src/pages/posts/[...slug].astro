@@ -12,7 +12,7 @@ import { licenseConfig, githubEditConfig } from "src/config";
 import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import { profileConfig, siteConfig } from "../../config";
-import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+import { formatDateTime } from "../../utils/date-utils";
 import Comment from "@components/comment/index.astro"
 
 export async function getStaticPaths() {
@@ -39,7 +39,7 @@ const jsonLd = {
 		name: profileConfig.name,
 		url: Astro.site,
 	},
-	datePublished: formatDateToYYYYMMDD(entry.data.published),
+	datePublished: formatDateTime(entry.data.published),
 	inLanguage: entry.data.lang
 		? entry.data.lang.replace("_", "-")
 		: siteConfig.lang.replace("_", "-"),

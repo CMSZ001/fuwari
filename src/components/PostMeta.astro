@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import { umamiConfig } from "../config";
-import { formatDateToYYYYMMDD } from "../utils/date-utils";
+import { formatDateTime } from "../utils/date-utils";
 import { getTagUrl } from "../utils/url-utils";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
@@ -33,7 +33,7 @@ const className = Astro.props.class;
         >
             <Icon name="material-symbols:calendar-today-outline-rounded" class="text-xl"></Icon>
         </div>
-        <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(published)}</span>
+        <span class="text-50 text-sm font-medium">{formatDateTime(published)}</span>
     </div>
 
     <!-- update date -->
@@ -43,7 +43,7 @@ const className = Astro.props.class;
             >
                 <Icon name="material-symbols:edit-calendar-outline-rounded" class="text-xl"></Icon>
             </div>
-            <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(updated)}</span>
+            <span class="text-50 text-sm font-medium">{formatDateTime(updated)}</span>
         </div>
     )}
 
@@ -73,12 +73,6 @@ const className = Astro.props.class;
                     <Icon name="material-symbols:visibility-outline-rounded" class="text-xl"></Icon>
                 </div>
                 <span class="text-50 text-sm font-medium" id={`page-views-${slug}`}>0 次</span>
-            </div>
-            <div class="flex items-center">
-                <div class="meta-icon">
-                    <Icon name="material-symbols:person" class="text-xl"></Icon>
-                </div>
-                <span class="text-50 text-sm font-medium" id={`page-visitors-${slug}`}>0 人</span>
             </div>
         </>
     )}
@@ -112,15 +106,12 @@ const className = Astro.props.class;
             });
             
             const pageViews = (statsData.pageviews && statsData.pageviews.value) || statsData.pageviews || 0;
-            const visits = (statsData.visitors && statsData.visitors.value) || statsData.visitors || 0;
             
             const viewsElement = document.getElementById(`page-views-${slug}`);
-            const visitorsElement = document.getElementById(`page-visitors-${slug}`);
             
             // 如果数据来自缓存，直接显示结果，跳过动画
             if (statsData._fromCache) {
                 if (viewsElement) viewsElement.innerHTML = `${pageViews} 次`;
-                if (visitorsElement) visitorsElement.innerHTML = `${visits} 人`;
                 return;
             }
 
@@ -131,17 +122,6 @@ const className = Astro.props.class;
                          animateValue(viewsElement, currentViews, pageViews, 1000, '次');
                     } else {
                          viewsElement.innerHTML = `${pageViews} 次`;
-                    }
-                }
-            }
-            
-            if (visitorsElement) {
-                const currentVisits = parseInt(visitorsElement.textContent) || 0;
-                if (currentVisits !== visits) {
-                    if (currentVisits === 0) {
-                         animateValue(visitorsElement, currentVisits, visits, 1000, '人');
-                    } else {
-                         visitorsElement.innerHTML = `${visits} 人`;
                     }
                 }
             }

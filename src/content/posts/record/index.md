@@ -1,6 +1,6 @@
 ---
 title: 记录
-published: 1999-01-01
+published: 1999-01-01T00:00:00Z
 description: ''
 image: ''
 tags: [记录]
@@ -10,7 +10,7 @@ lang: ''
 
 # 记录
 
-> 仅记录**~~奇怪的~~**
+仅记录**~~奇怪的~~**
 
 ## 图片压缩 Squoosh
 [squoosh.app](https://squoosh.app)

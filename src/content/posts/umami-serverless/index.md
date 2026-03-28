@@ -1,6 +1,6 @@
 ---
 title: Umami部署至Serverless平台
-published: 2025-11-25
+published: 2025-11-25T12:30:00+08:00
 description: Umami 是一个现代、注重隐私的 analytics 平台。它是 Google Analytics、Mixpanel 和 Amplitude 的开源替代方案。
 image: ""
 tags:
@@ -8,13 +8,12 @@ tags:
   - Umami
 draft: true
 lang: ''
-
 ---
 
 # 准备
 
 1. 一个Serverless平台（[Vercel](https://vercel.com/)、[Netlify](https://www.netlify.com/)、[Render](https://render.com/)、[Northflank](https://northflank.com/)、[Railway](https://railway.app/)）
-2. 一个[Github](https://github.com)账号，用于存储和同步Umami仓库文件
+2. 一个[Github](https://github.com/)账号，用于存储和同步Umami仓库文件
 
 ## 让我们开始吧
 
