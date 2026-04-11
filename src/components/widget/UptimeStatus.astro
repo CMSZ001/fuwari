@@ -21,11 +21,16 @@ const resolveUptimeConfig = (statusPageUrl: string) => {
     statusPageSlug: slug,
     heartbeatApiUrl: `${baseUrl}/api/status-page/heartbeat/${slug}`,
     uptimeIconUrl: `${baseUrl}/icon.svg`,
+    // 添加一个只包含域名的链接用于跳转
+    publicStatusPageUrl: baseUrl || parsedUrl.origin,
   };
 };
 
-const { heartbeatApiUrl: HEARTBEAT_API_URL, uptimeIconUrl: UPTIME_ICON_URL } =
-  resolveUptimeConfig(STATUS_PAGE_URL);
+const { 
+  heartbeatApiUrl: HEARTBEAT_API_URL, 
+  uptimeIconUrl: UPTIME_ICON_URL,
+  publicStatusPageUrl: PUBLIC_STATUS_PAGE_URL 
+} = resolveUptimeConfig(STATUS_PAGE_URL);
 
 interface Props {
   class?: string;
@@ -107,6 +112,7 @@ const statusConfig: Record<string, StatusConfigItem> = {
     id="uptime-widget-container"
     data-heartbeat-api={HEARTBEAT_API_URL}
     data-status-page-url={STATUS_PAGE_URL}
+    data-public-status-page-url={PUBLIC_STATUS_PAGE_URL}
     data-uptime-icon-url={UPTIME_ICON_URL}
   >
     <!-- 加载占位 -->
@@ -197,9 +203,10 @@ const statusConfig: Record<string, StatusConfigItem> = {
 
     const HEARTBEAT_API_URL = container.dataset.heartbeatApi;
     const STATUS_PAGE_URL = container.dataset.statusPageUrl;
+    const PUBLIC_STATUS_PAGE_URL = container.dataset.publicStatusPageUrl;
     const UPTIME_ICON_URL = container.dataset.uptimeIconUrl;
 
-    if (!HEARTBEAT_API_URL || !STATUS_PAGE_URL || !UPTIME_ICON_URL) {
+    if (!HEARTBEAT_API_URL || !STATUS_PAGE_URL || !PUBLIC_STATUS_PAGE_URL || !UPTIME_ICON_URL) {
       console.error('Missing required configuration');
       return;
     }
@@ -207,6 +214,7 @@ const statusConfig: Record<string, StatusConfigItem> = {
     // 类型断言确保这些是 string 类型
     const heartbeatApiUrl: string = HEARTBEAT_API_URL;
     const statusPageUrl: string = STATUS_PAGE_URL;
+    const publicStatusPageUrl: string = PUBLIC_STATUS_PAGE_URL;
     const uptimeIconUrl: string = UPTIME_ICON_URL;
 
     const decodeEscapedText = (value: string): string => {
@@ -318,7 +326,7 @@ const statusConfig: Record<string, StatusConfigItem> = {
       container!.innerHTML = `
         <div class="overflow-hidden rounded-2xl border shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${config.bg} ${config.border}">
           <a
-            href="${escapeHtml(statusPageUrl)}"
+            href="${escapeHtml(publicStatusPageUrl)}"
             target="_blank"
             rel="noopener noreferrer"
             class="group flex items-center justify-between gap-3 px-3.5 py-2.5 transition-all duration-300 hover:brightness-105 active:brightness-100"
