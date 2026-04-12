@@ -6,7 +6,6 @@ image: ''
 tags: ["Fuwari","Astro"]
 draft: false 
 lang: ''
-
 ---
 
 ::github{repo="saicaca/fuwari"}
