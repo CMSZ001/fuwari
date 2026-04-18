@@ -53,7 +53,7 @@ export const navBarConfig: NavBarConfig = {
 		},
 		{
 			name: "统计",
-			url: "https://u.acmsz.top/share/CFirWMQoiIUmgPLm/www.acmsz.top", // Internal links should not include the base path, as it is automatically added
+			url: "https://u.acmsz.top/share/CFirWMQoiIUmgPLm", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
 		},
 		{
