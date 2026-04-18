@@ -337,9 +337,9 @@ a[href*="mailto"]:hover {
     }
     .fuwari-gradient:hover { box-shadow: 0 12px 30px -10px rgba(139, 92, 246, 0.4); }
 
-    .cloudflare-gradient { background: linear-gradient(135deg, #0052d9 0%, #00a4ff 100%); }
-    .cloudflare-icon-bg { background: linear-gradient(135deg, #0052d9, #00a4ff); }
-    .cloudflare-gradient:hover { box-shadow: 0 12px 30px -10px rgba(0, 82, 217, 0.4); }
+    .cloudflare-gradient { background: linear-gradient(135deg, #F6821F 0%, #FBAD41 100%); }
+    .cloudflare-icon-bg { background: linear-gradient(135deg, #f6821f, #FBAD41); }
+    .cloudflare-gradient:hover { box-shadow: 0 12px 30px -10px rgba(246, 130, 31, 0.4)}
 
     :root.dark .tech-card {
       background: #1a1a1a !important;
