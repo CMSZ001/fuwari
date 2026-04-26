@@ -1,12 +1,12 @@
 {
-  "https://blog.acmsz.top/about/": "sha256:f10e970bd001d2e9e940a2eacc6f28cf51fe6089251fa223b714e652fbc1fa4d",
-  "https://blog.acmsz.top/archive/": "sha256:246b3ce2b959f0b038b8ad07c6722a6a11fc32deb7bb922c75a223434ff794f5",
-  "https://blog.acmsz.top/atom/": "sha256:472918dca780b2b5c8466eea8840823fa6ab2bd56e6ef56b82a4c62ab8800ac9",
-  "https://blog.acmsz.top/": "sha256:d1b8b4d74f6f87e63634097f97556efb883853a6669f788892644b4c7d522fec",
-  "https://blog.acmsz.top/notes/": "sha256:78df0d5aa51d584dae70b2ec2fd7a70afa395d356d3606dcfeb76f87091a5a7a",
-  "https://blog.acmsz.top/posts/guide/": "sha256:6832722c2db94b76d914e60259e1a307156c3964bf5bab450337dfb7be5e9080",
-  "https://blog.acmsz.top/posts/record/": "sha256:72fabe3ebb0cc4ef3b23ef39868919bb5e31ca62fac81abcc82db6f15feb1af4",
-  "https://blog.acmsz.top/posts/umami-docker-compose/": "sha256:37f670896a4ca0b8bd7c75d15b4e0b67c6570d18683ff2f557b43439601bbee5",
-  "https://blog.acmsz.top/rss/": "sha256:fe4b1971175cee544b40ba4b4869bb0893d8dfb0dfbfd9b2e3f056c98ba452e8",
-  "https://blog.acmsz.top/sponsors/": "sha256:7450de0a6c5999b6001d5bbd422a0a39a4b4dd20281855d5b6f4afefc3c61c5f"
+  "https://blog.acmsz.top/about/": "sha256:164bca6ecdac169d56a4170a7084d5ae38f7e0121fadab7e0c92efaa85563e0d",
+  "https://blog.acmsz.top/archive/": "sha256:8dbd8498eca2d61ff3c1fea225a190766d25fcc4d2de3ae91819608a8378b08f",
+  "https://blog.acmsz.top/atom/": "sha256:1772440a10268db9b9d4826db39503c2b4cfab2219c49a9b6845af96d2ab1ea8",
+  "https://blog.acmsz.top/": "sha256:a9f17a651de5c949c0994d1cfb3d2edc48332d657c1ee229cb4da12dbe28c17f",
+  "https://blog.acmsz.top/notes/": "sha256:3f3fc8cd3ea7e365070b77c1433699a99219e9721eaceb38fec690002367861a",
+  "https://blog.acmsz.top/posts/guide/": "sha256:88b96df0003a726acf47e0f928a5f58a9283ad22f8a783dc524542132ca4806f",
+  "https://blog.acmsz.top/posts/record/": "sha256:6b5122aba002e18598b88edcd344c78c961d3c8c3c1f5b5b4daaea82ef518ae9",
+  "https://blog.acmsz.top/posts/umami-docker-compose/": "sha256:03878a5579018c79e1eb6885d7b2381a236d7f79666c191e61ec13bf39588dfa",
+  "https://blog.acmsz.top/rss/": "sha256:2b4fc82f985ae22ec8115c8778373e9066a5f6ed570cc032797ed556ee8179b2",
+  "https://blog.acmsz.top/sponsors/": "sha256:dc2b1288ef986ad8a5b98729d4062b8d7b987ec8c4257f6143d06f781821fc26"
 }
