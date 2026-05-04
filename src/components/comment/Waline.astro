@@ -21,34 +21,60 @@ const config = {
     import { init } from '@waline/client';
     import '@waline/client/meta';
 
-    function loadWaline() {
+    let walineObserver;
+
+    function initWaline() {
         const walineEl = document.getElementById('waline');
-        if (walineEl && walineEl.dataset.config) {
-            try {
-                const config = JSON.parse(walineEl.dataset.config);
-                init({
-                    el: walineEl,
-                    ...config
-                });
-            } catch (e) {
-                console.error('Failed to parse waline config', e);
-            }
+        if (!walineEl) return;
+
+        if (walineObserver) {
+            walineObserver.disconnect();
+        }
+
+        walineObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const configStr = walineEl.dataset.config;
+                    if (configStr) {
+                        try {
+                            const config = JSON.parse(configStr);
+                            init({
+                                el: walineEl,
+                                ...config
+                            });
+                        } catch (e) {
+                            console.error('Failed to parse waline config', e);
+                        }
+                    }
+                    walineObserver.disconnect();
+                    walineObserver = null;
+                }
+            });
+        });
+
+        const wrapper = document.querySelector('.waline-wrapper');
+        if (wrapper) {
+            walineObserver.observe(wrapper);
         }
     }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                loadWaline();
-                observer.disconnect();
-            }
-        });
-    });
+    // 初始化
+    initWaline();
 
-    const wrapper = document.querySelector('.waline-wrapper');
-    if (wrapper) {
-        observer.observe(wrapper);
+    // 监听 Swup 事件
+    const setup = () => {
+        window.swup.hooks.on('content:replace', initWaline);
+    };
+
+    if (window.swup) {
+        setup();
+    } else {
+        document.addEventListener('swup:enable', setup);
     }
+
+    // 监听自定义事件和 Astro 事件作为回退
+    document.addEventListener('content:replace', initWaline);
+    document.addEventListener('astro:after-swap', initWaline);
 </script>
 
 <style is:global>
