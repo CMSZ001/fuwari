@@ -11,10 +11,14 @@
             "id": "fdbae12fc3ea74ff",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "posts/dns-as-code-via-dnscontrol/index.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "index"
             }
           }
         ]
@@ -164,6 +168,8 @@
   },
   "active": "fdbae12fc3ea74ff",
   "lastOpenFiles": [
+    "posts/record/index.md",
+    "posts/dns-as-code-via-dnscontrol/index.md",
     "docs/bypass-ad-blockers.md"
   ]
 }

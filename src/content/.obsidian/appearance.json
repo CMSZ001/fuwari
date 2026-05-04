@@ -1,3 +1,7 @@
 {
-  "textFontFamily": ""
+  "textFontFamily": "MiSans VF",
+  "monospaceFontFamily": "Cascadia Mono",
+  "interfaceFontFamily": "MiSans VF",
+  "baseFontSizeAction": true,
+  "baseFontSize": 17
 }
