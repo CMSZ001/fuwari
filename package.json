@@ -16,7 +16,7 @@
 		"preinstall": "npx only-allow pnpm"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.9.8",
+		"@astrojs/check": "^0.9.9",
 		"@astrojs/rss": "^4.0.18",
 		"@astrojs/sitemap": "^3.7.2",
 		"@astrojs/svelte": "7.2.3",
@@ -73,7 +73,7 @@
 		"@waline/client": "^3.13.0",
 		"postcss-import": "^16.1.1",
 		"postcss-nesting": "^13.0.2",
-		"wrangler": "^4.85.0"
+		"wrangler": "^4.87.0"
 	},
 	"packageManager": "pnpm@9.14.4"
 }

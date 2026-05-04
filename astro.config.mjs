@@ -3,10 +3,11 @@ import svelte from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
+import yaml from "@rollup/plugin-yaml";
 import swup from "@swup/astro";
+import { defineConfig, passthroughImageService } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
-import { defineConfig, passthroughImageService } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeComponents from "rehype-components"; /* Render the custom directive content */
 import rehypeKatex from "rehype-katex";
@@ -15,15 +16,14 @@ import remarkDirective from "remark-directive"; /* Handle directives */
 import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
 import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
-import yaml from "@rollup/plugin-yaml";
 import { expressiveCodeConfig } from "./src/config.ts";
+import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
-import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 
 // https://astro.build/config
 export default defineConfig({
@@ -50,12 +50,56 @@ export default defineConfig({
 		}),
 		icon({
 			include: {
-				"preprocess: vitePreprocess(),": ["*"],
-				"fa6-brands": ["*"],
-				"fa6-regular": ["*"],
-				"fa6-solid": ["*"],
-				"material-symbols": ["*"],
-				"mdi": ["*"],
+				"fa6-brands": ["alipay", "creative-commons", "github"],
+				"fa6-regular": ["address-card"],
+				"fa6-solid": [
+					"arrow-rotate-left",
+					"arrow-up-right-from-square",
+					"box-archive",
+					"chevron-right",
+					"clock-rotate-left",
+					"envelope",
+					"face-sad-tear",
+					"house",
+					"square-rss",
+				],
+				"material-symbols": [
+					"article",
+					"calendar-today-outline-rounded",
+					"chevron-left-rounded",
+					"chevron-right-rounded",
+					"comment",
+					"comment-rounded",
+					"copyright-outline-rounded",
+					"dark-mode-outline-rounded",
+					"edit-calendar-outline-rounded",
+					"edit-outline",
+					"favorite",
+					"favorite-outline",
+					"group",
+					"help-outline",
+					"home-outline-rounded",
+					"keyboard-arrow-down-rounded",
+					"keyboard-arrow-up-rounded",
+					"link",
+					"menu-rounded",
+					"more-horiz",
+					"notes-rounded",
+					"open-in-new",
+					"palette-outline",
+					"person",
+					"radio-button-partial-outline",
+					"rss-feed",
+					"schedule-outline-rounded",
+					"search",
+					"share",
+					"star",
+					"tag-rounded",
+					"visibility-outline",
+					"visibility-outline-rounded",
+					"wb-sunny-outline-rounded",
+				],
+				mdi: ["source-branch"],
 			},
 		}),
 		expressiveCode({
@@ -64,12 +108,12 @@ export default defineConfig({
 				pluginCollapsibleSections(),
 				pluginLineNumbers(),
 				pluginLanguageBadge(),
-				pluginCustomCopyButton()
+				pluginCustomCopyButton(),
 			],
 			defaultProps: {
 				wrap: true,
 				overridesByLang: {
-					'shellsession': {
+					shellsession: {
 						showLineNumbers: false,
 					},
 				},
@@ -90,19 +134,19 @@ export default defineConfig({
 					editorActiveTabIndicatorBottomColor: "var(--primary)",
 					editorActiveTabIndicatorTopColor: "none",
 					editorTabBarBorderBottomColor: "var(--codeblock-topbar-bg)",
-					terminalTitlebarBorderBottomColor: "none"
+					terminalTitlebarBorderBottomColor: "none",
 				},
 				textMarkers: {
 					delHue: 0,
 					insHue: 180,
-					markHue: 250
-				}
+					markHue: 250,
+				},
 			},
 			frames: {
 				showCopyToClipboardButton: false,
-			}
+			},
 		}),
-        svelte(),
+		svelte(),
 		sitemap(),
 	],
 	markdown: {
@@ -174,6 +218,6 @@ export default defineConfig({
 		},
 	},
 	image: {
-        service: passthroughImageService()
-    },
+		service: passthroughImageService(),
+	},
 });
