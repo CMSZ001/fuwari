@@ -2,6 +2,7 @@
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "@/config";
+import ImageWrapper from "../components/misc/ImageWrapper.astro";
 import rawSponsors from "@/data/sponsors.yml";
 
 const sponsors = (rawSponsors as Sponsor[]) ?? [];
@@ -59,7 +60,7 @@ const breadcrumbSchema = {
                 </div>
                 <div class="qr-code-placeholder">
                     <div class="relative w-48 h-48 mx-auto rounded-lg overflow-hidden" style={`--theme-hue: ${siteConfig.themeColor.hue}`}>
-                        <img src="/sponsors/alipay.svg" alt="支付宝二维码" class="w-full h-full object-cover transition duration-500" />
+                        <ImageWrapper src="assets/images/sponsors/alipay.webp" alt="支付宝二维码" class="mx-auto lg:w-full h-full lg:mt-0 "></ImageWrapper>
                     </div>
                 </div>
             </div>

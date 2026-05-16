@@ -112,7 +112,7 @@ const bannerOffset =
 		)}
 
 		<!-- Set the theme before the page is rendered to avoid a flash -->
-		<script is:inline define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue}}>
+		<script is:inline defer define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue}}>
 			// Load the theme from local storage
 			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
 
@@ -193,6 +193,8 @@ const bannerOffset =
 		<script is:inline defer src="/assets/js/ok.js" data-website-id="a02ccbdf-ec9f-46ea-98b6-8af51b0f5696" data-swup-ignore-script data-host-url="https://u.acmsz.top" data-domains="blog.acmsz.top" data-performance="true"></script>
 
 		<script is:inline src="/assets/js/umami-share.js" defer></script>
+
+		<link rel="manifest" href="/site.webmanifest" />
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
 		  data-overlayscrollbars-initialize
