@@ -1,8 +1,44 @@
+# 带内容哈希的构建产物 —— 文件名即版本，永久缓存
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Pagefind 搜索索引 —— 同样带哈希，永久缓存
+/pagefind/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 字体文件 —— 极少变化
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-/assets/*
-  Cache-Control: public, max-age=31536000, must-revalidate
+# Favicon —— 变化极罕见
+/assets/images/favicon/*
+  Cache-Control: public, max-age=2592000
+
+# JS 脚本 —— 无哈希，一周缓存（Umami 埋点/分享脚本）
+/assets/js/*
+  Cache-Control: public, max-age=604800
+
+# RSS / Atom Feed —— 随文章更新，1 小时刷新
+/rss.xml
+  Cache-Control: public, max-age=3600
+
+/atom.xml
+  Cache-Control: public, max-age=3600
+
+# Sitemap —— 1 天缓存
+/sitemap-index.xml
+  Cache-Control: public, max-age=86400
+
+/sitemap-0.xml
+  Cache-Control: public, max-age=86400
+
+# Web Manifest、Robots —— 低频变化
+/site.webmanifest
+  Cache-Control: public, max-age=2592000
+
+/robots.txt
+  Cache-Control: public, max-age=604800
+
+# HTML 页面 —— 短缓存，10 分钟后验证，保证读者能及时看到新文章
+/*.html
+  Cache-Control: public, max-age=600, must-revalidate

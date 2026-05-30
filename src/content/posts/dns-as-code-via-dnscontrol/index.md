@@ -2,7 +2,6 @@
 title: 使用 DNSControl 管理 DNS 记录
 published: 2026-05-04T15:20:00+08:00
 description: DNS 作为互联网基础设施的基石之一，也是最脆弱的环节之一。基础设施即代码（Infrastructure as Code, IaC）无疑为脆弱的 DNS 记录管理给出了一个方向。
-image: ./cover.webp
 tags:
   - laC
   - DNSControl
@@ -50,9 +49,9 @@ DNSControl 的文件结构非常简单，只需要两个文件即可：
 ```javascript
 var REG_NONE = NewRegistrar('none');
 var DSP_CLOUDFLARE = NewDnsProvider('cloudflare');
-D('example.com', REG_NONE, DnsProvider(DSP_CLOUDFLARE),
+D('acmsz.top', REG_NONE, DnsProvider(DSP_CLOUDFLARE),
   DefaultTTL(300),
-  A('@', '1.2.3.4'),
+  A('@', '1.1.1.1'),
 );
 ```
 如果要启用 IDE 的代码补全和类型检查，DNSControl 内置了 TypeScript 类型声明文件，可以通过 CLI 生成：
