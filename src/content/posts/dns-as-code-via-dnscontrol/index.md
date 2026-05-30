@@ -2,9 +2,7 @@
 title: 使用 DNSControl 管理 DNS 记录
 published: 2026-05-04T15:20:00+08:00
 description: DNS 作为互联网基础设施的基石之一，也是最脆弱的环节之一。基础设施即代码（Infrastructure as Code, IaC）无疑为脆弱的 DNS 记录管理给出了一个方向。
-tags:
-  - laC
-  - DNSControl
+category: '技术分享'
 draft: true
 lang: ""
 ---

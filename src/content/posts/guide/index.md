@@ -3,7 +3,6 @@ title: Astro+Fuwari博客部署教程
 published: 2025-08-05T12:30:00+08:00
 description: ''
 image: ''
-tags: ["Fuwari","Astro"]
 draft: false 
 lang: ''
 ---

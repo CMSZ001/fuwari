@@ -8,13 +8,13 @@ export const zh_TW: Translation = {
 	[Key.search]: "搜尋",
 	[Key.sponsors]: "贊助",
 
-	[Key.tags]: "標籤",
+	[Key.categories]: "分類",
 	[Key.recentPosts]: "最新文章",
 
 	[Key.comments]: "評論",
 
 	[Key.untitled]: "無標題",
-	[Key.noTags]: "無標籤",
+	[Key.uncategorized]: "未分類",
 
 	[Key.wordCount]: "字",
 	[Key.wordsCount]: "字",

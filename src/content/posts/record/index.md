@@ -3,7 +3,6 @@ title: 记录
 published: 1999-01-01T00:00:00Z
 description: ''
 image: ''
-tags: [记录]
 draft: false
 lang: ''
 ---

@@ -3,9 +3,6 @@ title: 使用 Umami 搭建网站统计工具
 published: 2026-04-12T11:00:00+08:00
 description: Umami 是一个现代、注重隐私的分析平台。它是 Google Analytics、Mixpanel 和 Amplitude 的开源替代方案。
 image: ./cover.webp
-tags:
-  - Umami
-  - Docker
 draft: false
 lang: ''
 ---
