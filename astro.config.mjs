@@ -5,7 +5,11 @@ import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-s
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import yaml from "@rollup/plugin-yaml";
 import swup from "@swup/astro";
-import { defineConfig, passthroughImageService } from "astro/config";
+import {
+	defineConfig,
+	fontProviders,
+	passthroughImageService,
+} from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -30,6 +34,9 @@ export default defineConfig({
 	site: "https://blog.acmsz.top/",
 	base: "/",
 	trailingSlash: "always",
+	// prefetch: {
+	// 	prefetchAll: true,
+	// },
 	integrations: [
 		tailwind({
 			nesting: true,
@@ -123,7 +130,7 @@ export default defineConfig({
 				borderRadius: "0.75rem",
 				borderColor: "none",
 				codeFontSize: "0.875rem",
-				codeFontFamily: "'Cascadia Code Variable', monospace",
+				codeFontFamily: "var(--font-cascadia), monospace",
 				codeLineHeight: "1.5rem",
 				frames: {
 					editorBackground: "var(--codeblock-bg)",
@@ -219,5 +226,24 @@ export default defineConfig({
 	},
 	image: {
 		service: passthroughImageService(),
+	},
+	experimental: {
+		fonts: [
+			{
+				name: "Inter",
+				cssVariable: "--font-inter",
+				provider: fontProviders.google(),
+				weights: [400, 500, 700],
+				styles: ["normal", "italic"],
+			},
+			{
+				provider: fontProviders.google(),
+				name: "Cascadia Code",
+				cssVariable: "--font-cascadia",
+				styles: ["normal"],
+				weights: [400],
+				fallbacks: ["monospace"],
+			},
+		],
 	},
 });

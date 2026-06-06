@@ -33,4 +33,4 @@ yarn.lock
 
 .wrangler
 
-!.astro-indexnow-cache.json
+.codewhale/

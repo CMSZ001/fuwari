@@ -15,6 +15,7 @@ import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
+import { Font } from "astro:assets";
 
 interface Props {
 	title?: string;
@@ -99,6 +100,9 @@ const bannerOffset =
 		<meta name="generator" content={Astro.generator} />
 		<meta name="msvalidate.01" content="24A26FA606D852368B4CA7D1CB6DE1FC" />
 		<meta name="google-site-verification" content="b1Hraird7GyEbyG8L__fLNBGbK5Wh_LeHY2BiftVqB0" />
+
+		<Font cssVariable="--font-inter" preload />
+
 		{favicons.map(favicon => (
 			<link rel="icon"
 				  href={favicon.src.startsWith('/') ? url(favicon.src) : favicon.src}
