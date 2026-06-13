@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>CMSZ Blog</title>
+  <subtitle>写点代码，也写点生活。</subtitle>
+  <link href="https://blog.acmsz.top/" rel="alternate" type="text/html"/>
+  <link href="https://blog.acmsz.top/atom.xml" rel="self" type="application/atom+xml"/>
+  <id>https://blog.acmsz.top/</id>
+  <updated>2026-06-13T08:13:25.065Z</updated>
+  <language>zh_CN</language>
+  <entry>
+    <title>使用 Umami 搭建网站统计工具</title>
+    <link href="https://blog.acmsz.top/posts/umami-docker-compose/" rel="alternate" type="text/html"/>
+    <id>https://blog.acmsz.top/posts/umami-docker-compose/</id>
+    <published>2026-04-12T03:00:00.000Z</published>
+    <updated>2026-04-12T03:00:00.000Z</updated>
+    <summary>Umami 是一个现代、注重隐私的分析平台。它是 Google Analytics、Mixpanel 和 Amplitude 的开源替代方案。</summary>
+    <content type="html"><![CDATA[<p>::github{repo="umami-software/umami"}</p>
+<h2>准备的东西</h2>
+<ol>
+<li>一台能运行Docker Compose的服务器</li>
+<li>良好的网络环境</li>
+</ol>
+<h2>安装 Docker</h2>
+<p>运行</p>
+<pre><code>bash &lt;(curl -sSL https://linuxmirrors.cn/docker.sh)
+</code></pre>
+<p>并按照指示安装 Docker</p>
+<h2>部署 Umami</h2>
+<ol>
+<li>创建运行文件夹</li>
+</ol>
+<pre><code>mkdir /path/to/umami/ &amp;&amp; cd /path/to/umami/
+</code></pre>
+<ol>
+<li>创建 Docker Compose 文件</li>
+</ol>
+<pre><code>touch compose.yml
+</code></pre>
+<p>然后使用文本编辑器<code>nano</code>或 <code>vim</code>将下方代码填入 compose.yml</p>
+<pre><code>services:
+  umami:
+    image: ghcr.nju.edu.cn/umami-software/umami:latest
+    container_name: umami
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://umami:umami@db:5432/umami
+      APP_SECRET: replace-me-with-a-random-string
+    depends_on:
+      db:
+        condition: service_healthy
+    init: true
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://127.0.0.1:23000/api/heartbeat"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  db:
+    image: postgres:15-alpine
+    container_name: umami-db
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: umami
+    volumes:
+      - ./umami-db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+volumes:
+  umami-db-data:
+</code></pre>
+<p>其中的<code>APP_SECRET</code>可以使用<a href="https://www.librechat.ai/docs/toolkit/credentials-generator">Credentials Generator | LibreChat</a>生成后的<code>JWT_SECRET</code>里的内容或使用以下命令生成一个：</p>
+<pre><code>openssl rand -hex 32
+</code></pre>
+<ol>
+<li>🚀启动</li>
+</ol>
+<pre><code>docker compose up -d
+</code></pre>
+<h2>登录后台</h2>
+<p>访问<a href="http://127.0.0.1:3000">127.0.0.1:3000</a>并使用默认的账户信息登录：</p>
+<ul>
+<li>账号：admin</li>
+<li>密码：umami
+<img src="https://blog.acmsz.top/_astro/1.BgwrCncu_29PFcH.webp" alt="" />
+登录后，点击侧边导航栏中的个人资料按钮，然后点击<code>Settings</code>。
+<img src="https://blog.acmsz.top/_astro/2.Dh6HICPe_1DEnWt.webp" alt="" />
+接着导航至<code>Profile</code>并点击 <code>Change password</code> 按钮。
+<img src="https://blog.acmsz.top/_astro/3.xYM7CKYB_E3fcL.webp" alt="" /></li>
+</ul>
+<h2>添加站点</h2>
+<ol>
+<li>访问<a href="http://127.0.0.1:3000/websites">/websites</a></li>
+<li>点击<code>添加网站</code>的按钮，然后填写<code>名字</code>和<code>域名</code></li>
+<li>点击<code>编辑</code>，将跟踪代码填写到网站的<code>&lt;head&gt;</code>内
+<img src="https://blog.acmsz.top/_astro/4.DAyKhZV5_Stqvd.webp" alt="" /></li>
+</ol>
+<h2>配置</h2>
+<p>通过在<code>/path/to/umami/</code>创建<code>.env</code>文件或修改<code>compose.yml</code>中的<code>environment</code>去修改配置，参考<a href="https://docs.umami.is/docs/environment-variables">Environment variables</a>，下方是一些配置</p>
+<blockquote>
+<h3>APP_SECRET <code>v1.0.0</code></h3>
+<p>用于保护身份验证令牌的随机字符串。每个安装实例都应有一个唯一值。你可以使用以下命令生成一个：</p>
+<pre><code>openssl rand -hex 32
+</code></pre>
+<pre><code>APP_SECRET = "random string"
+</code></pre>
+<h3>CLIENT_IP_HEADER <code>v1.24.0</code></h3>
+<p>用于检查客户端 IP 地址的 HTTP 头。当你位于使用非标准头的代理之后时，此变量很有用。</p>
+<pre><code>CLIENT_IP_HEADER = "header name"
+</code></pre>
+<h3>COLLECT_API_ENDPOINT <code>v1.34.0</code></h3>
+<p>允许你将指标发送到与默认 <code>/api/send</code> 不同的位置。这有助于规避某些广告拦截器。</p>
+<pre><code>COLLECT_API_ENDPOINT = "/my-custom-route"
+</code></pre>
+<h3>CORS_MAX_AGE <code>v2.0.0</code></h3>
+<p>CORS 预检请求的缓存时间（秒）。默认为 24 小时。</p>
+<pre><code>CORS_MAX_AGE = 86400
+</code></pre>
+<h3>DATABASE_URL <code>v1.0.0</code></h3>
+<pre><code>DATABASE_URL = "connection string"
+</code></pre>
+<p>数据库的连接字符串。这是唯一必需的变量。</p>
+<h3>DEBUG <code>v2.0.0</code></h3>
+<p>针对应用程序特定区域的日志输出。可选值包括 <code>umami:auth</code>、<code>umami:clickhouse</code>、<code>umami:kafka</code>、<code>umami:middleware</code> 和 <code>umami:prisma</code>。</p>
+<pre><code>DEBUG = "umami:*"
+</code></pre>
+<h3>DISABLE_BOT_CHECK <code>v2.0.0</code></h3>
+<p>默认情况下，机器人流量会被排除在统计之外。此变量用于禁用机器人检测。</p>
+<pre><code>DISABLE_BOT_CHECK = 1
+</code></pre>
+<h3>DISABLE_LOGIN <code>v1.26.0</code></h3>
+<p>禁用应用程序的登录页面。</p>
+<pre><code>DISABLE_LOGIN = 1
+</code></pre>
+<h3>DISABLE_UPDATES <code>v1.33.0</code></h3>
+<p>禁用对 Umami 新版本的检查。</p>
+<pre><code>DISABLE_UPDATES = 1
+</code></pre>
+<h3>DISABLE_TELEMETRY <code>v2.0.0</code></h3>
+<p>Umami 会收集完全匿名的遥测数据以帮助改进应用程序。如果你不想参与，可以选择禁用此功能。</p>
+<pre><code>DISABLE_TELEMETRY = 1
+</code></pre>
+<h3>ENABLE_TEST_CONSOLE <code>v2.0.0</code></h3>
+<p>启用内部测试页面 <code>{host}/console</code>。需要管理员权限。用户可以在该页面向其网站手动触发页面浏览和事件。</p>
+<pre><code>ENABLE_TEST_CONSOLE = 1
+</code></pre>
+<h3>FAVICON_URL <code>v2.18.0</code></h3>
+<p>用于显示网站图标的服务 URL。</p>
+<pre><code>FAVICON_URL = "service URL"
+</code></pre>
+<p>默认为 <code>icons.duckduckgo.com</code>：</p>
+<ul>
+<li><code>https://icons.duckduckgo.com/ip3/{{domain}}.ico</code>（中国大陆访问不佳）</li>
+</ul>
+<p>你可以使用以下备选方案：</p>
+<ul>
+<li><code>https://www.google.com/s2/favicons?domain={{domain}}</code></li>
+<li><code>https://logo.clearbit.com/{{domain}}</code></li>
+<li><code>https://favicon.im/{{domain}}</code></li>
+</ul>
+<h3>GEO_DATABASE_URL <code>v2.0.0</code></h3>
+<p>用于下载 MaxMind 兼容的 MMDB 格式 GeoIP 数据库的 URL。当来自 CDN 的位置头不可用时，用于基于 IP 的位置检测。</p>
+<pre><code>GEO_DATABASE_URL = "https://example.com/GeoLite2-City.mmdb"
+</code></pre>
+<h3>HOSTNAME / PORT <code>v1.0.0</code></h3>
+<p>如果你运行的环境要求绑定到特定的主机名或端口（例如 Heroku），你可以添加这些变量，并使用 <code>npm run start-env</code> 而非 <code>npm start</code> 来启动应用。</p>
+<pre><code>HOSTNAME = "my.hostname.com"
+PORT = 3000
+</code></pre>
+<h3>IGNORE_IP <code>v1.0.0</code></h3>
+<p>你可以提供一个以逗号分隔的 IP 地址和 CIDR 范围列表，以将其排除在数据收集之外。</p>
+<pre><code>IGNORE_IP = "192.168.0.1, 10.0.0.0/24, 2001:db8::/32"
+</code></pre>
+<h3>LOG_QUERY <code>v2.0.0</code></h3>
+<p>如果你在开发模式下运行，此变量会将数据库查询记录到控制台以供调试。</p>
+<pre><code>LOG_QUERY = 1
+</code></pre>
+<h3>PRIVATE_MODE <code>v2.11.0</code></h3>
+<p>禁用所有外部网络调用。请注意，由于网站图标来自 duckduckgo.com，此操作也会禁用所有网站图标。</p>
+<pre><code>PRIVATE_MODE = 1
+</code></pre>
+<h3>REMOVE_TRAILING_SLASH <code>v1.26.0</code></h3>
+<p>移除所有传入 URL 末尾的斜杠。</p>
+<pre><code>REMOVE_TRAILING_SLASH = 1
+</code></pre>
+<h3>TRACKER_SCRIPT_NAME <code>v1.26.0</code></h3>
+<p>允许你为跟踪脚本指定一个自定义名称，以区别于默认的 <code>script.js</code>。这有助于规避某些广告拦截器。</p>
+<p>不需要 <code>.js</code> 扩展名。该值也可以是你选择的任何路径，例如 <code>/path/to/tracker</code>。</p>
+<pre><code>TRACKER_SCRIPT_NAME = "custom-script-name.js"
+</code></pre>
+<h3>SKIP_LOCATION_HEADERS <code>v2.15.0</code></h3>
+<p>跳过使用已知的位置头进行国家/地区/城市检测，强制使用本地 Geo 数据库。</p>
+<p>这在代理或 CDN 仅设置了国家（不含地区或城市）头的环境中很有用（例如当 Cloudflare 的 Network &gt; IP Geolocation 开关打开时，仅提供 <code>CF-IPCountry</code> 头）。</p>
+<pre><code>SKIP_LOCATION_HEADERS = 1
+</code></pre>
+<h3>ALLOWED_FRAME_URLS <code>v2.3.0</code></h3>
+<p>一个以空格分隔的 URL 列表，允许其在 iframe 中托管该应用程序。</p>
+<pre><code>ALLOWED_FRAME_URLS = "URLs"
+</code></pre>
+<h3>BASE_PATH <code>v1.9.0</code></h3>
+<p>如果你想将 Umami 托管在子目录下，请设置此变量。你可能需要更新反向代理设置以正确处理 BASE_PATH 前缀。</p>
+<pre><code>BASE_PATH = "/custom"
+</code></pre>
+<h3>DATABASE_TYPE <code>v2.0.0</code></h3>
+<pre><code>DATABASE_TYPE = "postgresql"
+</code></pre>
+<p>要使用的数据库类型。仅 Docker 构建时需要。</p>
+<h3>FORCE_SSL <code>v1.0.0</code></h3>
+<p>此设置将在所有请求的响应头中添加 HTTP <code>Strict-Transport-Security</code>。请参阅 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">MDN 文档</a>。</p>
+<pre><code>FORCE_SSL = 1
+</code></pre>
+<h3>SKIP_DB_CHECK <code>v2.0.0</code></h3>
+<p>在构建过程中跳过 <code>check-db</code> 步骤。用于 Docker 构建。</p>
+<pre><code>SKIP_DB_CHECK = 1
+</code></pre>
+<h3>SKIP_DB_MIGRATION <code>v2.0.0</code></h3>
+<p>在构建过程中跳过 Prisma 迁移步骤。设置 <code>SKIP_DB_CHECK</code> 也会跳过此步骤。</p>
+<pre><code>SKIP_DB_MIGRATION = 1
+</code></pre>
+</blockquote>
+<h2>更新 Umami</h2>
+<p>当有新版本发布时，可以按照以下步骤进行更新：</p>
+<ol>
+<li>进入 Umami 的项目目录：</li>
+</ol>
+<pre><code>cd /path/to/umami/
+</code></pre>
+<ol>
+<li>拉取最新镜像并重新启动服务：</li>
+</ol>
+<pre><code>docker compose down
+docker compose pull
+docker compose up -d
+</code></pre>
+<h2>参考资料</h2>
+<ul>
+<li><a href="https://docs.umami.is/docs">Documentation</a></li>
+<li><a href="https://atpx.com/blog/build-umami-web-analytics/">使用 Umami 自建网站流量统计分析工具 - atpX</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>CMSZ</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Astro+Fuwari博客部署教程</title>
+    <link href="https://blog.acmsz.top/posts/guide/" rel="alternate" type="text/html"/>
+    <id>https://blog.acmsz.top/posts/guide/</id>
+    <published>2025-08-05T04:30:00.000Z</published>
+    <updated>2025-08-05T04:30:00.000Z</updated>
+    <summary></summary>
+    <content type="html"><![CDATA[<p>::github{repo="saicaca/fuwari"}</p>
+<h2>准备的东西</h2>
+<ol>
+<li>
+<p>聪明的脑子，不会的先搜索，搜索不到就<s>去和AI调情</s>。</p>
+</li>
+<li>
+<p>版本控制系统（<a href="https://git-scm.com/">Git</a>），也可以使用<a href="https://github.com/apps/desktop">Github Desktop</a>。</p>
+</li>
+<li>
+<p>Fuwari的初始化和预览需要<a href="https://nodejs.org/zh-cn">Node.js — Run JavaScript Everywhere</a>。</p>
+</li>
+<li>
+<p>Markdown编辑器，例如<a href="https://code.visualstudio.com/">Visual Studio Code</a>、<a href="https://github.com/marktext/marktext">marktext</a>等。</p>
+</li>
+<li>
+<p>一个Git远程仓库，例如<a href="https://github.com/">Github</a>、<a href="https://gitlab.com/">GitLab</a>等（可选）</p>
+</li>
+<li>
+<p>PaaS平台，例如<a href="https://www.netlify.com/">Netlify</a>、<a href="https://vercel.com/">Vercel</a>等（可选）</p>
+</li>
+</ol>
+<h2>让我们开始吧</h2>
+<h3>🚀 使用方法 1</h3>
+<p>使用 <a href="https://github.com/L4Ph/create-fuwari">create-fuwari</a> 在本地初始化项目。</p>
+<pre><code># npm
+npm create fuwari@latest
+
+# yarn
+yarn create fuwari
+
+# pnpm
+pnpm create fuwari@latest
+
+# bun
+bun create fuwari@latest
+
+# deno
+deno run -A npm:create-fuwari@latest
+</code></pre>
+<ol>
+<li>通过配置文件 <code>src/config.ts</code> 自定义博客</li>
+<li>执行 <code>pnpm new-post &lt;filename&gt;</code> 创建新文章，并在 <code>src/content/posts/</code> 目录中编辑</li>
+<li>参考<a href="https://docs.astro.build/zh-cn/guides/deploy/">官方指南</a>将博客部署至 Vercel, Netlify, GitHub Pages 等；部署前需编辑 <code>astro.config.mjs</code> 中的站点设置。</li>
+</ol>
+<h3>🚀 使用方法 2</h3>
+<ol>
+<li>使用此模板<a href="https://github.com/saicaca/fuwari/generate">生成新仓库</a>或 Fork 此仓库</li>
+<li>进行本地开发，Clone 新的仓库，执行 <code>pnpm install</code> 和 <code>pnpm add sharp</code> 以安装依赖
+<ul>
+<li>若未安装 <a href="https://pnpm.io/">pnpm</a>，执行 <code>npm install -g pnpm</code></li>
+</ul>
+</li>
+<li>通过配置文件 <code>src/config.ts</code> 自定义博客</li>
+<li>执行 <code>pnpm new-post &lt;filename&gt;</code> 创建新文章，并在 <code>src/content/posts/</code> 目录中编辑</li>
+<li>参考<a href="https://docs.astro.build/zh-cn/guides/deploy/">官方指南</a>将博客部署至 Vercel, Netlify, GitHub Pages 等；部署前需编辑 <code>astro.config.mjs</code> 中的站点设置。</li>
+</ol>
+<h2>修改配置文件</h2>
+<ol>
+<li>
+<p>astro.config.mjs</p>
+<p>请自行阅读<a href="https://docs.astro.build/zh-cn/reference/configuration-reference/">Astro 配置文件</a></p>
+</li>
+<li>
+<p>src\config.ts（其他的请自行翻译注释）</p>
+<ul>
+<li>
+<p>title：博客主标题</p>
+</li>
+<li>
+<p>subtitle：博客副标题，会显示为<code>title - subtitle</code></p>
+</li>
+<li>
+<p>lang：博客的语言，支持<code>'en', 'zh-CN', 'zh_TW', 'ja', 'ko', 'es', 'th', 'vi'</code>等</p>
+</li>
+<li>
+<p>themeColor</p>
+<ul>
+<li>
+<p>hue：博客主题色<code>主题颜色的默认色调，范围从 0 到 360。例如，红色：0，青色：200，青蓝色：250，粉色：345</code></p>
+</li>
+<li>
+<p>fixed：是否隐藏主题颜色选择器给访客</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>引用自 <a href="https://2x.nz/posts/fuwari/#%E6%94%B9%E5%86%99fuwari%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E5%B9%B6%E4%B8%94%E6%B8%85%E7%90%86%E5%A4%9A%E4%BD%99%E6%96%87%E4%BB%B6">Fuwari静态博客搭建教程 - AcoFork Blog</a></p>
+<ul>
+<li>
+<p>banner：src：即banner图片，支持http/https URL</p>
+</li>
+<li>
+<p>favicon：src：即网站图标，支持http/https URL</p>
+</li>
+<li>
+<p>links：即友情链接，这些链接在导航栏上</p>
+</li>
+<li>
+<p>avatar：即你的头像</p>
+</li>
+<li>
+<p>name：即你的名字</p>
+</li>
+<li>
+<p>bio：即个性签名，会显示在头像和名字下面</p>
+</li>
+<li>
+<p><code>NavBarConfig</code> 为导航栏设置的超链接。<code>ProfileConfig</code> 为你的用户的超链接</p>
+</li>
+<li>
+<p>icon：你需要前往<a href="https://icones.js.org/">icones.js.org</a>去搜索你想要的图标，比如QQ，则填写 <code>fa6-brands:qq</code> ，如图。Fuwari默认支持这几种类型：<code>fa6-brands</code>, <code>fa6-regular</code>, <code>fa6-solid</code>, <code>material-symbols</code>。可以在 <code>astro.config.mjs</code> 中搜索关键字进行配置</p>
+</li>
+</ul>
+</blockquote>
+<h2>部署到PaaS平台</h2>
+<p>部署的前提已推送到远程仓库</p>
+<h3>Vercel</h3>
+<blockquote>
+<p>可参考<a href="https://docs.astro.build/zh-cn/guides/deploy/vercel/">部署你的 Astro 站点至 Vercel | Docs</a></p>
+</blockquote>
+<ol>
+<li>
+<p>向Astro 项目中添加 <a href="https://docs.astro.build/zh-cn/guides/integrations-guide/vercel/">Vercel 适配器</a> 以开启 <a href="https://docs.astro.build/zh-cn/guides/on-demand-rendering/">按需渲染</a>。</p>
+</li>
+<li>
+<p>打开<a href="https://vercel.com/dashboard">Vercel</a>并创建项目</p>
+</li>
+</ol>
+<p><img src="https://blog.acmsz.top/_astro/1.SvJPRjw__ZjjF1C.webp" alt="" /></p>
+<p><img src="https://blog.acmsz.top/_astro/2.1nqiKCAa_Z144ahH.webp" alt="" /></p>
+<ol>
+<li>构建静态页面</li>
+</ol>
+<p><img src="https://blog.acmsz.top/_astro/3.DFabPUXQ_gpQWE.webp" alt="" /></p>
+<hr />
+<p>🎉 恭喜你，你的Astro+Fuwari博客已部署完成</p>
+]]></content>
+    <author>
+      <name>CMSZ</name>
+    </author>
+  </entry>
+  <entry>
+    <title>记录</title>
+    <link href="https://blog.acmsz.top/posts/record/" rel="alternate" type="text/html"/>
+    <id>https://blog.acmsz.top/posts/record/</id>
+    <published>1999-01-01T00:00:00.000Z</published>
+    <updated>1999-01-01T00:00:00.000Z</updated>
+    <summary></summary>
+    <content type="html"><![CDATA[<h1>记录</h1>
+<p>仅记录**<s>奇怪的</s>**</p>
+<h2>图片压缩 Squoosh</h2>
+<p><a href="https://squoosh.app">squoosh.app</a></p>
+<h2>Termux-zsh</h2>
+<p>::github{repo="Sohil876/Termux-zsh"}</p>
+]]></content>
+    <author>
+      <name>CMSZ</name>
+    </author>
+  </entry>
+</feed>
