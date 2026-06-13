@@ -12,6 +12,7 @@ concurrency:
 permissions:
   contents: write
   deployments: write
+  actions: write
 
 jobs:
   build:
