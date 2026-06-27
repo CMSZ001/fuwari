@@ -1,0 +1,28 @@
+{
+    "name": "CMSZ Blog",
+    "short_name": "CMSZ Blog",
+    "icons": [
+    {
+        "src": "/assets/images/favicon/favicon-light-192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    },
+    {
+        "src": "/assets/images/favicon/favicon-light-180.png",
+        "sizes": "180x180",
+        "type": "image/png"
+    },
+    {
+        "src": "/assets/images/favicon/favicon-light-128.png",
+        "sizes": "128x128",
+        "type": "image/png"
+    },
+    {
+        "src": "/assets/images/favicon/favicon-light-32.png",
+        "sizes": "32x32",
+        "type": "image/png"
+    }
+    ],
+    "display": "standalone",
+    "start_url": "/"
+}
