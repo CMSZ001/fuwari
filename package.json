@@ -74,5 +74,14 @@
 		"postcss-nesting": "^13.0.2",
 		"wrangler": "^4.95.0"
 	},
-	"packageManager": "pnpm@9.14.4"
+	"packageManager": "pnpm@9.14.4",
+	"pnpm": {
+		"overrides": {
+			"is-core-module": "npm:@nolyfill/is-core-module@^1",
+			"number-is-nan": "npm:@nolyfill/number-is-nan@^1",
+			"safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+			"safer-buffer": "npm:@nolyfill/safer-buffer@^1",
+			"string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1"
+		}
+	}
 }
